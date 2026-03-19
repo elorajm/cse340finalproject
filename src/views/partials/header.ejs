@@ -4,6 +4,16 @@
   <a href="/contact">Contact</a>
 
   <% if (user) { %>
+    <a href="/admin/dashboard">Dashboard</a>
+
+    <% if (user.role === "owner") { %>
+      <a href="/admin/owner">Owner Panel</a>
+    <% } %>
+
+    <% if (user.role === "employee" || user.role === "owner") { %>
+      <a href="/admin/employee">Employee Panel</a>
+    <% } %>
+
     <span>Welcome, <%= user.first_name %></span>
     <form action="/auth/logout" method="POST" style="display:inline;">
       <button type="submit">Logout</button>
