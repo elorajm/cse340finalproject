@@ -2,11 +2,24 @@
 
 <h1 class="page-title"><%= title %></h1>
 
-<p><strong>Category:</strong> <%= vehicle.category %></p>
-<p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
-<p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></p>
-<p><strong>Description:</strong> <%= vehicle.description %></p>
+<div class="vehicle-detail">
+  <div class="vehicle-detail-image-wrapper">
+    <img 
+      src="<%= vehicle.image_url %>" 
+      alt="<%= vehicle.alt_text %>"
+      class="vehicle-detail-image"
+    >
+  </div>
 
-<p><a href="/inventory">← Back to inventory</a></p>
+  <div class="vehicle-detail-info">
+    <p><strong>Category:</strong> <%= vehicle.category || 'Uncategorized' %></p>
+    <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
+    <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></p>
+    <p><strong>Description:</strong></p>
+    <p><%= vehicle.description %></p>
+
+    <p><a href="/inventory">← Back to inventory</a></p>
+  </div>
+</div>
 
 <%- include("../partials/footer") %>

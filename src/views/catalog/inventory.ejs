@@ -1,17 +1,32 @@
 <%- include("../partials/header") %>
 
 <h1 class="page-title"><%= title %></h1>
+<p class="inventory-intro">Browse our collection of classic and collectible vehicles.</p>
 
-<ul class="vehicle-list">
+<div class="inventory-grid">
   <% vehicles.forEach(vehicle => { %>
-    <li>
-      <a href="/vehicle/<%= vehicle.vehicle_id %>">
-        <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+    <article class="vehicle-card">
+      <a href="/vehicle/<%= vehicle.vehicle_id %>" class="vehicle-card-image-link">
+        <img 
+          src="<%= vehicle.image_url %>" 
+          alt="<%= vehicle.alt_text %>"
+          class="vehicle-card-image"
+        >
       </a>
-      <br>
-      <span class="vehicle-price">$<%= Number(vehicle.price).toLocaleString() %></span>
-    </li>
+
+      <div class="vehicle-card-content">
+        <h2 class="vehicle-card-title">
+          <a href="/vehicle/<%= vehicle.vehicle_id %>">
+            <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+          </a>
+        </h2>
+
+        <p class="vehicle-card-category"><%= vehicle.category || 'Uncategorized' %></p>
+        <p class="vehicle-card-price">$<%= Number(vehicle.price).toLocaleString() %></p>
+        <p class="vehicle-card-mileage"><%= Number(vehicle.mileage).toLocaleString() %> miles</p>
+      </div>
+    </article>
   <% }) %>
-</ul>
+</div>
 
 <%- include("../partials/footer") %>
