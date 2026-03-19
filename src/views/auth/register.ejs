@@ -1,0 +1,37 @@
+<%- include("../partials/header") %>
+
+<h1 class="page-title"><%= title %></h1>
+
+<% if (errors.length > 0) { %>
+  <ul>
+    <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<form action="/auth/register" method="POST">
+  <p>
+    <label>First Name</label><br>
+    <input type="text" name="first_name" value="<%= old.first_name || '' %>">
+  </p>
+
+  <p>
+    <label>Last Name</label><br>
+    <input type="text" name="last_name" value="<%= old.last_name || '' %>">
+  </p>
+
+  <p>
+    <label>Email</label><br>
+    <input type="email" name="email" value="<%= old.email || '' %>">
+  </p>
+
+  <p>
+    <label>Password</label><br>
+    <input type="password" name="password">
+  </p>
+
+  <button type="submit">Register</button>
+</form>
+
+<%- include("../partials/footer") %>

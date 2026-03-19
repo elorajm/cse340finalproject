@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import session from "express-session";
+import connectPgSimple from "connect-pg-simple";
+import db from "./src/models/db.js";
+
 import indexRoutes from "./src/routes/index.routes.js";
 
 dotenv.config();
@@ -21,8 +25,32 @@ app.set("views", path.join(__dirname, "src", "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const PgStore = connectPgSimple(session);
+
+app.use(
+  session({
+    store: new PgStore({
+      pool: db,
+      tableName: "session"
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 2
+    }
+  })
+);
+
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 // Routes
 app.use("/", indexRoutes);

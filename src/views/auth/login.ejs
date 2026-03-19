@@ -1,0 +1,27 @@
+<%- include("../partials/header") %>
+
+<h1 class="page-title"><%= title %></h1>
+
+<% if (errors.length > 0) { %>
+  <ul>
+    <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<form action="/auth/login" method="POST">
+  <p>
+    <label>Email</label><br>
+    <input type="email" name="email" value="<%= old.email || '' %>">
+  </p>
+
+  <p>
+    <label>Password</label><br>
+    <input type="password" name="password">
+  </p>
+
+  <button type="submit">Login</button>
+</form>
+
+<%- include("../partials/footer") %>
