@@ -16,8 +16,11 @@ export async function showInventory(req, res, next) {
 export async function showVehicle(req, res, next) {
   try {
     const vehicleId = req.params.id;
-
     const vehicle = await getVehicleById(vehicleId);
+
+    if (!vehicle) {
+      return res.status(404).send("Vehicle not found");
+    }
 
     res.render("catalog/vehicle", {
       title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,

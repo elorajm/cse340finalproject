@@ -11,3 +11,14 @@ export async function getDbTest(req, res, next) {
     next(error);
   }
 }
+
+export async function getDbInfo(req, res, next) {
+  try {
+    const result = await db.query(
+      "SELECT current_database(), current_user, current_schema()"
+    );
+    res.json(result.rows[0]);
+  } catch (error) {
+    next(error);
+  }
+}
