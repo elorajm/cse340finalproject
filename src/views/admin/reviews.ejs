@@ -1,0 +1,28 @@
+<%- include("../partials/header") %>
+
+<h1 class="page-title"><%= title %></h1>
+
+<% if (reviews.length === 0) { %>
+  <p>No reviews found.</p>
+<% } else { %>
+  <div class="messages-list">
+    <% reviews.forEach(review => { %>
+      <article class="message-card">
+        <p>
+          <strong><%= review.first_name %> <%= review.last_name %></strong>
+          reviewed
+          <strong><%= review.year %> <%= review.make %> <%= review.model %></strong>
+        </p>
+        <p><strong>Rating:</strong> <%= review.rating %>/5</p>
+        <p><%= review.comment %></p>
+        <p><small><%= new Date(review.created_at).toLocaleString() %></small></p>
+
+        <form action="/reviews/delete/<%= review.review_id %>" method="POST">
+          <button type="submit">Delete Review</button>
+        </form>
+      </article>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include("../partials/footer") %>

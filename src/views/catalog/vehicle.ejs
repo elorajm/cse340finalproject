@@ -17,9 +17,60 @@
     <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></p>
     <p><strong>Description:</strong></p>
     <p><%= vehicle.description %></p>
-
     <p><a href="/inventory">← Back to inventory</a></p>
   </div>
 </div>
+
+<hr>
+
+<h2>Customer Reviews</h2>
+
+<% if (user) { %>
+  <form action="/reviews/<%= vehicle.vehicle_id %>" method="POST" class="contact-form">
+    <p>
+      <label for="rating">Rating</label><br>
+      <select name="rating" id="rating">
+        <option value="5">5</option>
+        <option value="4">4</option>
+        <option value="3">3</option>
+        <option value="2">2</option>
+        <option value="1">1</option>
+      </select>
+    </p>
+
+    <p>
+      <label for="comment">Comment</label><br>
+      <textarea id="comment" name="comment" rows="5"></textarea>
+    </p>
+
+    <button type="submit" class="inventory-button">Submit Review</button>
+  </form>
+<% } else { %>
+  <p><a href="/auth/login">Log in</a> to leave a review.</p>
+<% } %>
+
+<% if (reviews.length === 0) { %>
+  <p>No reviews yet.</p>
+<% } else { %>
+  <div class="messages-list">
+    <% reviews.forEach(review => { %>
+      <article class="message-card">
+        <p><strong><%= review.first_name %> <%= review.last_name %></strong></p>
+        <p><strong>Rating:</strong> <%= review.rating %>/5</p>
+        <p><%= review.comment %></p>
+        <p><small><%= new Date(review.created_at).toLocaleString() %></small></p>
+
+        <% if (user && (user.user_id === review.user_id || user.role === "owner" || user.role === "employee")) { %>
+          <p>
+            <a href="/reviews/edit/<%= review.review_id %>">Edit</a>
+          </p>
+          <form action="/reviews/delete/<%= review.review_id %>" method="POST">
+            <button type="submit">Delete</button>
+          </form>
+        <% } %>
+      </article>
+    <% }) %>
+  </div>
+<% } %>
 
 <%- include("../partials/footer") %>

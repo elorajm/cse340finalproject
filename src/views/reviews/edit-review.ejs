@@ -1,0 +1,35 @@
+<%- include("../partials/header") %>
+
+<h1 class="page-title"><%= title %></h1>
+
+<p>Editing review for <strong><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></strong></p>
+
+<% if (errors.length > 0) { %>
+  <ul class="form-errors">
+    <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<form action="/reviews/edit/<%= review.review_id %>" method="POST" class="contact-form">
+  <p>
+    <label for="rating">Rating</label><br>
+    <select name="rating" id="rating">
+      <option value="5" <%= review.rating == 5 ? "selected" : "" %>>5</option>
+      <option value="4" <%= review.rating == 4 ? "selected" : "" %>>4</option>
+      <option value="3" <%= review.rating == 3 ? "selected" : "" %>>3</option>
+      <option value="2" <%= review.rating == 2 ? "selected" : "" %>>2</option>
+      <option value="1" <%= review.rating == 1 ? "selected" : "" %>>1</option>
+    </select>
+  </p>
+
+  <p>
+    <label for="comment">Comment</label><br>
+    <textarea id="comment" name="comment" rows="5"><%= review.comment %></textarea>
+  </p>
+
+  <button type="submit" class="inventory-button">Save Changes</button>
+</form>
+
+<%- include("../partials/footer") %>

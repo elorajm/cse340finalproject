@@ -1,4 +1,5 @@
 import { getAllVehicles, getVehicleById, getAllCategories } from "../models/inventory.model.js";
+import { getReviewsByVehicleId } from "../models/review.model.js";
 
 export async function showInventory(req, res, next) {
   try {
@@ -29,9 +30,12 @@ export async function showVehicle(req, res, next) {
       return res.status(404).send("Vehicle not found");
     }
 
+    const reviews = await getReviewsByVehicleId(vehicleId);
+
     res.render("catalog/vehicle", {
       title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
-      vehicle
+      vehicle,
+      reviews
     });
   } catch (error) {
     next(error);
