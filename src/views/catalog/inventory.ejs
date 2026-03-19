@@ -1,12 +1,17 @@
-<h1><%= title %></h1>
+<%- include("../partials/header") %>
 
-<ul>
+<h1 class="page-title"><%= title %></h1>
+
+<ul class="vehicle-list">
   <% vehicles.forEach(vehicle => { %>
     <li>
       <a href="/vehicle/<%= vehicle.vehicle_id %>">
         <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
       </a>
-      - $<%= vehicle.price %>
+      <br>
+      <span class="vehicle-price">$<%= Number(vehicle.price).toLocaleString() %></span>
     </li>
   <% }) %>
 </ul>
+
+<%- include("../partials/footer") %>
