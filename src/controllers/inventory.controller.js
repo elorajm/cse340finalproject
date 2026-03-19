@@ -1,12 +1,19 @@
-import { getAllVehicles, getVehicleById } from "../models/inventory.model.js";
+import { getAllVehicles, getVehicleById, getAllCategories } from "../models/inventory.model.js";
 
 export async function showInventory(req, res, next) {
   try {
-    const vehicles = await getAllVehicles();
+    const categoryId = req.query.category || "";
+    const sort = req.query.sort || "newest";
+
+    const vehicles = await getAllVehicles(categoryId || null, sort);
+    const categories = await getAllCategories();
 
     res.render("catalog/inventory", {
       title: "Vehicle Inventory",
-      vehicles
+      vehicles,
+      categories,
+      selectedCategory: categoryId,
+      selectedSort: sort
     });
   } catch (error) {
     next(error);

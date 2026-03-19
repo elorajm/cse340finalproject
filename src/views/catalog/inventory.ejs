@@ -3,6 +3,37 @@
 <h1 class="page-title"><%= title %></h1>
 <p class="inventory-intro">Browse our collection of classic and collectible vehicles.</p>
 
+<form method="GET" action="/inventory" class="inventory-controls">
+  <div class="inventory-control-group">
+    <label for="category">Category</label>
+    <select name="category" id="category">
+      <option value="">All Categories</option>
+      <% categories.forEach(category => { %>
+        <option value="<%= category.category_id %>" <%= selectedCategory == category.category_id ? "selected" : "" %>>
+          <%= category.name %>
+        </option>
+      <% }) %>
+    </select>
+  </div>
+
+  <div class="inventory-control-group">
+    <label for="sort">Sort By</label>
+    <select name="sort" id="sort">
+      <option value="newest" <%= selectedSort === "newest" ? "selected" : "" %>>Newest</option>
+      <option value="price_asc" <%= selectedSort === "price_asc" ? "selected" : "" %>>Price: Low to High</option>
+      <option value="price_desc" <%= selectedSort === "price_desc" ? "selected" : "" %>>Price: High to Low</option>
+      <option value="year_desc" <%= selectedSort === "year_desc" ? "selected" : "" %>>Year: Newest First</option>
+      <option value="year_asc" <%= selectedSort === "year_asc" ? "selected" : "" %>>Year: Oldest First</option>
+      <option value="mileage_asc" <%= selectedSort === "mileage_asc" ? "selected" : "" %>>Mileage: Low to High</option>
+      <option value="mileage_desc" <%= selectedSort === "mileage_desc" ? "selected" : "" %>>Mileage: High to Low</option>
+    </select>
+  </div>
+
+  <div class="inventory-control-group">
+    <button type="submit" class="inventory-button">Apply</button>
+  </div>
+</form>
+
 <div class="inventory-grid">
   <% vehicles.forEach(vehicle => { %>
     <article class="vehicle-card">
@@ -21,7 +52,7 @@
           </a>
         </h2>
 
-        <p class="vehicle-card-category"><%= vehicle.category || 'Uncategorized' %></p>
+        <p class="vehicle-card-category"><%= vehicle.category || "Uncategorized" %></p>
         <p class="vehicle-card-price">$<%= Number(vehicle.price).toLocaleString() %></p>
         <p class="vehicle-card-mileage"><%= Number(vehicle.mileage).toLocaleString() %> miles</p>
       </div>
