@@ -1,0 +1,21 @@
+<%- include("../partials/header") %>
+
+<h1 class="page-title"><%= title %></h1>
+
+<% if (messages.length === 0) { %>
+  <p>No contact messages found.</p>
+<% } else { %>
+  <div class="messages-list">
+    <% messages.forEach(message => { %>
+      <article class="message-card">
+        <h2><%= message.subject %></h2>
+        <p><strong>From:</strong> <%= message.name %> (<%= message.email %>)</p>
+        <p><strong>Status:</strong> <%= message.status %></p>
+        <p><strong>Sent:</strong> <%= new Date(message.created_at).toLocaleString() %></p>
+        <p><%= message.message %></p>
+      </article>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include("../partials/footer") %>
