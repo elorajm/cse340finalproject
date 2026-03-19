@@ -1,0 +1,49 @@
+<%- include("../partials/header") %>
+
+<h1>Request Service</h1>
+
+<% if (typeof errors !== "undefined" && errors.length > 0) { %>
+  <ul style="color:red;">
+    <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
+  </ul>
+<% } %>
+
+<form action="/service/new" method="POST">
+  <p>
+    <label for="vehicle_id">Vehicle (optional)</label><br>
+    <select name="vehicle_id" id="vehicle_id">
+      <option value="">-- Not from our inventory --</option>
+      <% vehicles.forEach(v => { %>
+        <option value="<%= v.vehicle_id %>"
+          <%= (typeof old !== "undefined" && old.vehicle_id == v.vehicle_id) ? "selected" : "" %>>
+          <%= v.year %> <%= v.make %> <%= v.model %>
+        </option>
+      <% }) %>
+    </select>
+  </p>
+
+  <p>
+    <label for="service_type">Service Type</label><br>
+    <select name="service_type" id="service_type" required>
+      <option value="">-- Select a service type --</option>
+      <% const types = ["Oil Change", "Tire Rotation", "Brake Inspection", "Engine Tune-Up",
+                        "Transmission Service", "Battery Replacement", "AC Service",
+                        "Wheel Alignment", "Multi-Point Inspection", "Other"]; %>
+      <% types.forEach(t => { %>
+        <option value="<%= t %>"
+          <%= (typeof old !== "undefined" && old.service_type === t) ? "selected" : "" %>>
+          <%= t %>
+        </option>
+      <% }) %>
+    </select>
+  </p>
+
+  <p>
+    <label for="description">Description</label><br>
+    <textarea name="description" id="description" rows="4" cols="40"><%= typeof old !== "undefined" ? old.description : "" %></textarea>
+  </p>
+
+  <button type="submit">Submit Request</button>
+</form>
+
+<%- include("../partials/footer") %>
