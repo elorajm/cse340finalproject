@@ -68,6 +68,32 @@ export async function getAllVehicles(categoryId = null, sort = "newest") {
   return vehicles;
 }
 
+export async function createVehicle(year, make, model, price, mileage, description, categoryId) {
+  const result = await db.query(
+    `INSERT INTO vehicles (year, make, model, price, mileage, description, category_id)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
+     RETURNING *`,
+    [year, make, model, price, mileage, description, categoryId || null]
+  );
+  return result.rows[0];
+}
+
+export async function updateVehicle(vehicleId, year, make, model, price, mileage, description, categoryId) {
+  const result = await db.query(
+    `UPDATE vehicles
+     SET year = $1, make = $2, model = $3, price = $4,
+         mileage = $5, description = $6, category_id = $7
+     WHERE vehicle_id = $8
+     RETURNING *`,
+    [year, make, model, price, mileage, description, categoryId || null, vehicleId]
+  );
+  return result.rows[0];
+}
+
+export async function deleteVehicle(vehicleId) {
+  await db.query(`DELETE FROM vehicles WHERE vehicle_id = $1`, [vehicleId]);
+}
+
 export async function getVehicleById(vehicleId) {
   const result = await db.query(
     `

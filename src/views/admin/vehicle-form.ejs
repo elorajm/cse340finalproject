@@ -1,0 +1,64 @@
+<%- include("../partials/header") %>
+
+<h1><%= title %></h1>
+
+<% if (errors && errors.length > 0) { %>
+  <ul style="color:red;">
+    <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
+  </ul>
+<% } %>
+
+<% const action = vehicle ? `/admin/vehicles/edit/${vehicle.vehicle_id}` : "/admin/vehicles/new"; %>
+
+<form action="<%= action %>" method="POST">
+  <p>
+    <label for="year">Year <span style="color:red;">*</span></label><br>
+    <input type="number" id="year" name="year" min="1900" max="2100" required
+           value="<%= old.year || '' %>">
+  </p>
+
+  <p>
+    <label for="make">Make <span style="color:red;">*</span></label><br>
+    <input type="text" id="make" name="make" required value="<%= old.make || '' %>">
+  </p>
+
+  <p>
+    <label for="model">Model <span style="color:red;">*</span></label><br>
+    <input type="text" id="model" name="model" required value="<%= old.model || '' %>">
+  </p>
+
+  <p>
+    <label for="price">Price <span style="color:red;">*</span></label><br>
+    <input type="number" id="price" name="price" min="0" step="0.01" required
+           value="<%= old.price || '' %>">
+  </p>
+
+  <p>
+    <label for="mileage">Mileage</label><br>
+    <input type="number" id="mileage" name="mileage" min="0"
+           value="<%= old.mileage || '' %>">
+  </p>
+
+  <p>
+    <label for="category_id">Category</label><br>
+    <select id="category_id" name="category_id">
+      <option value="">-- No category --</option>
+      <% categories.forEach(c => { %>
+        <option value="<%= c.category_id %>"
+          <%= (old.category_id == c.category_id) ? "selected" : "" %>>
+          <%= c.name %>
+        </option>
+      <% }) %>
+    </select>
+  </p>
+
+  <p>
+    <label for="description">Description</label><br>
+    <textarea id="description" name="description" rows="4" cols="40"><%= old.description || '' %></textarea>
+  </p>
+
+  <button type="submit"><%= vehicle ? "Save Changes" : "Add Vehicle" %></button>
+  <a href="/admin/vehicles">Cancel</a>
+</form>
+
+<%- include("../partials/footer") %>
