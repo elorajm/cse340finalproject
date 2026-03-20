@@ -16,6 +16,10 @@ body {
   background-color: #111827;
   color: white;
   padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
 }
 
 .site-header-inner {
@@ -24,63 +28,145 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.85rem 0;
+  padding: 0.7rem 0;
+  gap: 0.75rem;
   flex-wrap: wrap;
-  gap: 0.5rem;
 }
 
+/* Brand */
 .site-brand {
   color: white;
   text-decoration: none;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: bold;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .site-brand:hover {
   color: #e2b84b;
 }
 
-nav {
+/* Nav shell */
+.main-nav {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.25rem;
 }
 
-nav a {
-  color: white;
+/* Nav groups keep links together */
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+/* Vertical divider between groups */
+.nav-divider {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: rgba(255,255,255,0.18);
+  margin: 0 0.4rem;
+  flex-shrink: 0;
+}
+
+/* Base link style */
+.nav-link {
+  color: #cbd5e1;
   text-decoration: none;
-  padding: 0.4rem 0.75rem;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 0.95rem;
-}
-
-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-}
-
-.nav-welcome {
-  color: #d1d5db;
+  padding: 0.4rem 0.7rem;
+  border-radius: 5px;
   font-size: 0.9rem;
-  padding: 0 0.5rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+  position: relative;
 }
 
+.nav-link:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.09);
+}
+
+/* Active page indicator — gold underline */
+.nav-active {
+  color: #fff !important;
+}
+
+.nav-active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0.7rem;
+  right: 0.7rem;
+  height: 2px;
+  background: #e2b84b;
+  border-radius: 2px;
+}
+
+/* Role panel links — gold tint */
+.nav-role-link {
+  color: #fcd34d !important;
+}
+
+.nav-role-link:hover {
+  background: rgba(252,211,77,0.1) !important;
+}
+
+/* Owner link slightly brighter */
+.nav-owner-link {
+  color: #fbbf24 !important;
+  font-weight: 700;
+}
+
+/* Greeting */
+.nav-welcome {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  padding: 0 0.4rem;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+/* Logout — red-tinted outlined button */
 .nav-logout-btn {
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.4);
-  color: white;
-  padding: 0.35rem 0.75rem;
-  border-radius: 4px;
+  border: 1px solid rgba(248,113,113,0.45);
+  color: #fca5a5;
+  padding: 0.3rem 0.75rem;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: bold;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
 .nav-logout-btn:hover {
-  background: rgba(255,255,255,0.15);
+  background: rgba(248,113,113,0.12);
+  border-color: rgba(248,113,113,0.75);
+  color: #fca5a5;
+}
+
+/* Register — gold pill button */
+.nav-register-btn {
+  background: #e2b84b;
+  color: #111827;
+  text-decoration: none;
+  padding: 0.35rem 0.85rem;
+  border-radius: 5px;
+  font-size: 0.87rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.15s;
+  margin-left: 0.25rem;
+}
+
+.nav-register-btn:hover {
+  background: #c9a030;
 }
 
 /* ============================================================

@@ -10,32 +10,74 @@
 
 <header class="site-header">
   <div class="site-header-inner">
+
     <a href="/" class="site-brand">Jake's Car Dealership</a>
 
-    <nav>
-      <a href="/">Home</a>
-      <a href="/inventory">Inventory</a>
-      <a href="/contact">Contact</a>
+    <nav class="main-nav" aria-label="Main navigation">
+
+      <%
+        function navActive(paths) {
+          if (!Array.isArray(paths)) paths = [paths];
+          return paths.some(p =>
+            typeof p === 'object'
+              ? currentPath.startsWith(p.startsWith)
+              : currentPath === p
+          ) ? 'nav-active' : '';
+        }
+      %>
+
+      <!-- Public links — always visible -->
+      <div class="nav-group nav-public">
+        <a href="/"         class="nav-link <%= navActive('/') %>">Home</a>
+        <a href="/inventory" class="nav-link <%= navActive([{startsWith:'/inventory'},{startsWith:'/vehicle'}]) %>">Inventory</a>
+        <a href="/contact"   class="nav-link <%= navActive('/contact') %>">Contact</a>
+      </div>
 
       <% if (user) { %>
-        <a href="/admin/dashboard">Dashboard</a>
 
-        <% if (user.role === "owner") { %>
-          <a href="/admin/owner">Owner Panel</a>
-        <% } %>
+        <span class="nav-divider" aria-hidden="true"></span>
 
-        <% if (user.role === "employee" || user.role === "owner") { %>
-          <a href="/admin/employee">Employee Panel</a>
-        <% } %>
+        <!-- User-specific links -->
+        <div class="nav-group nav-user">
+          <a href="/service/my-requests"
+             class="nav-link <%= navActive({startsWith:'/service/my'}) %>">My&nbsp;Service&nbsp;Requests</a>
 
-        <span class="nav-welcome">Welcome, <%= user.first_name %></span>
-        <form action="/auth/logout" method="POST" style="display:inline;">
-          <button type="submit" class="nav-logout-btn">Logout</button>
-        </form>
+          <a href="/admin/dashboard"
+             class="nav-link <%= navActive('/admin/dashboard') %>">Dashboard</a>
+
+          <% if (user.role === "employee" || user.role === "owner") { %>
+            <a href="/admin/employee"
+               class="nav-link nav-role-link <%= navActive('/admin/employee') %>">Employee&nbsp;Panel</a>
+          <% } %>
+
+          <% if (user.role === "owner") { %>
+            <a href="/admin/owner"
+               class="nav-link nav-role-link nav-owner-link <%= navActive('/admin/owner') %>">Owner&nbsp;Panel</a>
+          <% } %>
+        </div>
+
+        <span class="nav-divider" aria-hidden="true"></span>
+
+        <!-- User meta -->
+        <div class="nav-group nav-meta">
+          <span class="nav-welcome">Hi, <%= user.first_name %></span>
+          <form action="/auth/logout" method="POST" style="margin:0;">
+            <button type="submit" class="nav-logout-btn">Logout</button>
+          </form>
+        </div>
+
       <% } else { %>
-        <a href="/auth/login">Login</a>
-        <a href="/auth/register">Register</a>
+
+        <span class="nav-divider" aria-hidden="true"></span>
+
+        <!-- Guest auth links -->
+        <div class="nav-group nav-auth">
+          <a href="/auth/login"    class="nav-link <%= navActive('/auth/login') %>">Login</a>
+          <a href="/auth/register" class="nav-register-btn">Register</a>
+        </div>
+
       <% } %>
+
     </nav>
   </div>
 </header>
