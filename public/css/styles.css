@@ -798,3 +798,222 @@ body.home-page main {
   color: #d1d5db;
   flex-shrink: 0;
 }
+
+/* ============================================================
+   SERVICE REQUEST CARDS
+   ============================================================ */
+.service-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.service-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: white;
+  overflow: hidden;
+}
+
+.service-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #f8f9fb;
+  border-bottom: 1px solid #e5e7eb;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.service-card-id {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #9ca3af;
+  margin-right: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.service-card-type {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.95rem;
+}
+
+.service-card-details {
+  padding: 0.85rem 1rem 0;
+}
+
+.service-card-details p {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* ============================================================
+   SERVICE STATUS BADGES
+   ============================================================ */
+.service-status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.service-status-submitted {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.service-status-in-progress {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.service-status-completed {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+/* ============================================================
+   SERVICE UPDATE FORM (inline inside card)
+   ============================================================ */
+.service-update-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid #f3f4f6;
+  margin-top: 0.5rem;
+}
+
+.service-update-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  gap: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.service-update-select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: white;
+}
+
+.service-update-input {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  min-width: 200px;
+  width: 100%;
+}
+
+/* ============================================================
+   CONTACT MESSAGE CARDS
+   ============================================================ */
+.msg-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.35rem;
+}
+
+.msg-card-subject {
+  margin: 0;
+  font-size: 1rem;
+  color: #111827;
+}
+
+.msg-card-time {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+.msg-card-from {
+  margin: 0 0 0.5rem;
+  font-size: 0.88rem;
+  color: #6b7280;
+}
+
+.msg-card-from a {
+  color: #0f4c81;
+  text-decoration: none;
+}
+
+.msg-card-from a:hover {
+  text-decoration: underline;
+}
+
+.msg-card-body {
+  margin: 0;
+  font-size: 0.93rem;
+  color: #374151;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* ============================================================
+   REVIEW MODERATION CARDS
+   ============================================================ */
+.review-mod-card {
+  border-color: #e5e7eb;
+}
+
+.review-mod-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+  font-size: 0.93rem;
+  color: #374151;
+}
+
+.review-mod-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.review-stars {
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+
+.review-mod-comment {
+  margin: 0 0 0.85rem;
+  font-size: 0.93rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   EMPLOYEE ADVISORY NOTE
+   ============================================================ */
+.emp-note {
+  margin-top: 2rem;
+  padding: 0.85rem 1.1rem;
+  background: #f8f9fb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #6b7280;
+  font-size: 0.88rem;
+  text-align: center;
+}

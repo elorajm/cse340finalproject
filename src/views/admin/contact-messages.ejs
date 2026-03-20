@@ -1,18 +1,25 @@
 <%- include("../partials/header") %>
 
-<h1 class="page-title"><%= title %></h1>
+<div class="admin-page-header">
+  <h1 class="page-title"><%= title %></h1>
+  <span style="color:#6b7280; font-size:0.9rem;"><%= messages.length %> message<%= messages.length !== 1 ? 's' : '' %></span>
+</div>
 
 <% if (messages.length === 0) { %>
-  <p>No contact messages found.</p>
+  <p style="color:#6b7280;">No contact messages yet.</p>
 <% } else { %>
   <div class="messages-list">
-    <% messages.forEach(message => { %>
+    <% messages.forEach(m => { %>
       <article class="message-card">
-        <h2><%= message.subject %></h2>
-        <p><strong>From:</strong> <%= message.name %> (<%= message.email %>)</p>
-        <p><strong>Status:</strong> <%= message.status %></p>
-        <p><strong>Sent:</strong> <%= new Date(message.created_at).toLocaleString() %></p>
-        <p><%= message.message %></p>
+        <div class="msg-card-header">
+          <h3 class="msg-card-subject"><%= m.subject %></h3>
+          <time class="msg-card-time"><%= new Date(m.created_at).toLocaleString() %></time>
+        </div>
+        <p class="msg-card-from">
+          From <strong><%= m.name %></strong>
+          &mdash; <a href="mailto:<%= m.email %>"><%= m.email %></a>
+        </p>
+        <p class="msg-card-body"><%= m.message %></p>
       </article>
     <% }) %>
   </div>

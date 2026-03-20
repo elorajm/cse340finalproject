@@ -1,13 +1,90 @@
 <%- include("../partials/header") %>
 
-<h1 class="page-title"><%= title %></h1>
-<p>Welcome to the employee dashboard.</p>
+<div class="dashboard-header">
+  <div>
+    <h1 class="page-title" style="margin-bottom:0.25rem;">Employee Dashboard</h1>
+    <p style="color:#6b7280; margin:0;">Hi, <%= user.first_name %>. Here's your current workload.</p>
+  </div>
+</div>
 
-<ul>
-  <li>Edit vehicle details</li>
-  <li><a href="/service/admin">Manage Service Requests</a></li>
-  <li><a href="/contact/messages">View contact messages</a></li>
-  <li><a href="/admin/reviews">Moderate reviews</a></li>
-</ul>
+<!-- Stats -->
+<div class="stats-row">
+  <div class="stat-card <%= stats.pendingServices > 0 ? 'stat-card-alert' : '' %>">
+    <span class="stat-icon">&#9201;</span>
+    <div>
+      <div class="stat-number"><%= stats.pendingServices %></div>
+      <div class="stat-label">Awaiting Action</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">&#128296;</span>
+    <div>
+      <div class="stat-number"><%= stats.inProgressServices %></div>
+      <div class="stat-label">In Progress</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">&#10003;</span>
+    <div>
+      <div class="stat-number"><%= stats.totalServices %></div>
+      <div class="stat-label">Total Requests</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">&#128172;</span>
+    <div>
+      <div class="stat-number"><%= stats.messages %></div>
+      <div class="stat-label">Messages</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">&#11088;</span>
+    <div>
+      <div class="stat-number"><%= stats.reviews %></div>
+      <div class="stat-label">Reviews</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="dashboard-section-title">Your Tools</h2>
+<div class="dashboard-grid">
+
+  <a href="/service/admin" class="dash-card">
+    <span class="dash-card-icon">&#128296;</span>
+    <div class="dash-card-body">
+      <h3>Service Requests</h3>
+      <p>
+        <% if (stats.pendingServices > 0) { %>
+          <strong style="color:#d97706;"><%= stats.pendingServices %> waiting</strong> &middot;
+        <% } %>
+        Update status and add staff notes.
+      </p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+  <a href="/contact/messages" class="dash-card">
+    <span class="dash-card-icon">&#128172;</span>
+    <div class="dash-card-body">
+      <h3>Contact Messages</h3>
+      <p>View messages submitted by customers through the contact form.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+  <a href="/admin/reviews" class="dash-card">
+    <span class="dash-card-icon">&#11088;</span>
+    <div class="dash-card-body">
+      <h3>Review Moderation</h3>
+      <p>Read and remove customer reviews from vehicle listings.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+</div>
+
+<div class="emp-note">
+  Need something you don't see here? Contact the owner for elevated access.
+</div>
 
 <%- include("../partials/footer") %>

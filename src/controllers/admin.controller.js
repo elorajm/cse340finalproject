@@ -31,10 +31,26 @@ export async function showAdminDashboard(req, res, next) {
   }
 }
 
-export function showEmployeeDashboard(req, res) {
-  res.render("admin/employee-dashboard", {
-    title: "Employee Dashboard"
-  });
+export async function showEmployeeDashboard(req, res, next) {
+  try {
+    const [serviceRequests, messages, reviews] = await Promise.all([
+      getAllRequests(),
+      getAllContactMessages(),
+      getAllReviews()
+    ]);
+
+    const stats = {
+      pendingServices: serviceRequests.filter(r => r.status === "Submitted").length,
+      inProgressServices: serviceRequests.filter(r => r.status === "In Progress").length,
+      totalServices: serviceRequests.length,
+      messages: messages.length,
+      reviews: reviews.length
+    };
+
+    res.render("admin/employee-dashboard", { title: "Employee Dashboard", stats });
+  } catch (error) {
+    next(error);
+  }
 }
 
 export function showUserDashboard(req, res) {
