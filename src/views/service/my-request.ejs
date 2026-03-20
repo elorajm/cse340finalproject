@@ -39,10 +39,10 @@
         <div class="service-card-details">
           <p>
             <strong>Vehicle:</strong>
-            <% if (r.year && r.make && r.model) { %>
-              <%= r.year %> <%= r.make %> <%= r.model %>
+            <% if (r.car_year || r.car_make || r.car_model) { %>
+              <%= [r.car_year, r.car_make, r.car_model].filter(Boolean).join(' ') %>
             <% } else { %>
-              <em style="color:#9ca3af;">Not from our inventory</em>
+              <em style="color:#9ca3af;">Not specified</em>
             <% } %>
           </p>
           <% if (r.description) { %>

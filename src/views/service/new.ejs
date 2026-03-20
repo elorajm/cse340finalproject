@@ -14,23 +14,40 @@
 
 <form action="/service/new" method="POST" class="service-form">
 
-  <div class="service-form-group">
-    <label class="service-form-label" for="vehicle_id">
-      Vehicle from Our Inventory
-      <span class="service-form-hint">Optional — leave blank if the vehicle isn't listed</span>
-    </label>
-    <select name="vehicle_id" id="vehicle_id" class="service-form-select">
-      <option value="">-- Not from our inventory --</option>
-      <% vehicles.forEach(v => { %>
-        <option value="<%= v.vehicle_id %>"
-          <%= (typeof old !== "undefined" && old.vehicle_id == v.vehicle_id) ? "selected" : "" %>>
-          <%= v.year %> <%= v.make %> <%= v.model %>
-          <% if (v.price) { %> &mdash; $<%= Number(v.price).toLocaleString() %><% } %>
-        </option>
-      <% }) %>
-    </select>
-  </div>
+  <!-- Vehicle info: free-text -->
+  <fieldset class="service-form-fieldset">
+    <legend class="service-form-legend">Your Vehicle</legend>
+    <p class="service-form-hint" style="margin:0 0 0.9rem;">Enter your car's details — all fields are optional.</p>
 
+    <div class="service-form-row-3">
+      <div class="service-form-group">
+        <label class="service-form-label" for="car_year">Year</label>
+        <input type="text" name="car_year" id="car_year"
+               class="service-form-input"
+               maxlength="10"
+               placeholder="e.g. 2019"
+               value="<%= typeof old !== 'undefined' ? (old.car_year || '') : '' %>">
+      </div>
+      <div class="service-form-group">
+        <label class="service-form-label" for="car_make">Make</label>
+        <input type="text" name="car_make" id="car_make"
+               class="service-form-input"
+               maxlength="100"
+               placeholder="e.g. Honda"
+               value="<%= typeof old !== 'undefined' ? (old.car_make || '') : '' %>">
+      </div>
+      <div class="service-form-group">
+        <label class="service-form-label" for="car_model">Model</label>
+        <input type="text" name="car_model" id="car_model"
+               class="service-form-input"
+               maxlength="100"
+               placeholder="e.g. Civic"
+               value="<%= typeof old !== 'undefined' ? (old.car_model || '') : '' %>">
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- Service type -->
   <div class="service-form-group">
     <label class="service-form-label" for="service_type">
       Service Type <span style="color:#dc2626;">*</span>
@@ -51,6 +68,19 @@
     </select>
   </div>
 
+  <!-- "Other" custom service type — shown by JS when "Other" is selected -->
+  <div class="service-form-group" id="other-service-group" style="display:none;">
+    <label class="service-form-label" for="other_service_type">
+      Describe the service <span style="color:#dc2626;">*</span>
+    </label>
+    <input type="text" name="other_service_type" id="other_service_type"
+           class="service-form-input"
+           maxlength="200"
+           placeholder="e.g. Windshield wiper replacement"
+           value="<%= typeof old !== 'undefined' ? (old.other_service_type || '') : '' %>">
+  </div>
+
+  <!-- Description -->
   <div class="service-form-group">
     <label class="service-form-label" for="description">
       Description
@@ -67,5 +97,22 @@
   </div>
 
 </form>
+
+<script>
+  (function () {
+    var select = document.getElementById('service_type');
+    var otherGroup = document.getElementById('other-service-group');
+    var otherInput = document.getElementById('other_service_type');
+
+    function toggle() {
+      var isOther = select.value === 'Other';
+      otherGroup.style.display = isOther ? 'block' : 'none';
+      otherInput.required = isOther;
+    }
+
+    select.addEventListener('change', toggle);
+    toggle(); // set initial state on page load (handles validation re-render)
+  })();
+</script>
 
 <%- include("../partials/footer") %>

@@ -122,8 +122,8 @@
             <%= r.status %>
           </span>
           <span class="user-request-type"><%= r.service_type %></span>
-          <% if (r.year && r.make && r.model) { %>
-            <span class="user-request-vehicle">&mdash; <%= r.year %> <%= r.make %> <%= r.model %></span>
+          <% if (r.car_year || r.car_make || r.car_model) { %>
+            <span class="user-request-vehicle">&mdash; <%= [r.car_year, r.car_make, r.car_model].filter(Boolean).join(' ') %></span>
           <% } %>
         </div>
         <time class="user-request-date"><%= new Date(r.created_at).toLocaleDateString() %></time>

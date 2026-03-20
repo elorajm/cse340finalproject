@@ -5,15 +5,10 @@ import {
   getAllRequests,
   updateRequestStatus
 } from "../models/service.model.js";
-import { getAllVehicles } from "../models/inventory.model.js";
 
 export async function showServiceForm(req, res, next) {
   try {
-    const vehicles = await getAllVehicles();
-    res.render("service/new", {
-      title: "Request Service",
-      vehicles
-    });
+    res.render("service/new", { title: "Request Service" });
   } catch (error) {
     next(error);
   }
@@ -21,23 +16,29 @@ export async function showServiceForm(req, res, next) {
 
 export async function submitServiceRequest(req, res, next) {
   try {
-    const { vehicle_id, service_type, description } = req.body;
+    const { car_year, car_make, car_model, service_type, other_service_type, description } = req.body;
 
-    if (!service_type || service_type.trim() === "") {
-      const vehicles = await getAllVehicles();
+    // Resolve "Other" to the custom text
+    let finalServiceType = service_type ? service_type.trim() : "";
+    if (finalServiceType === "Other") {
+      const custom = other_service_type ? other_service_type.trim() : "";
+      finalServiceType = custom || "Other";
+    }
+
+    if (!finalServiceType) {
       return res.status(400).render("service/new", {
         title: "Request Service",
-        vehicles,
         errors: [{ msg: "Please select a service type." }],
         old: req.body
       });
     }
 
-    const vehicleId = vehicle_id || null;
     await createServiceRequest(
       req.session.user.user_id,
-      vehicleId,
-      service_type.trim(),
+      car_year ? car_year.trim() : null,
+      car_make ? car_make.trim() : null,
+      car_model ? car_model.trim() : null,
+      finalServiceType,
       description ? description.trim() : null
     );
 
