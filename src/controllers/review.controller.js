@@ -2,6 +2,8 @@ import { validationResult } from "express-validator";
 import {
   createReview,
   getReviewById,
+  getReviewsByVehicleId,
+  getUserVehicleReview,
   updateReview,
   deleteReview
 } from "../models/review.model.js";
@@ -9,20 +11,33 @@ import { getVehicleById } from "../models/inventory.model.js";
 
 export async function addReview(req, res, next) {
   try {
-    const errors = validationResult(req);
     const vehicleId = req.params.vehicleId;
+    const userId = req.session.user.user_id;
 
-    if (!errors.isEmpty()) {
-      return res.status(400).send("Validation failed.");
+    // Duplicate check first — before validation so the message is specific
+    const existing = await getUserVehicleReview(userId, vehicleId);
+    if (existing) {
+      return res.redirect(`/vehicle/${vehicleId}?reviewError=duplicate`);
     }
 
-    await createReview(
-      vehicleId,
-      req.session.user.user_id,
-      req.body.rating,
-      req.body.comment
-    );
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const [vehicle, reviews] = await Promise.all([
+        getVehicleById(vehicleId),
+        getReviewsByVehicleId(vehicleId)
+      ]);
+      return res.status(400).render("catalog/vehicle", {
+        title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
+        vehicle,
+        reviews,
+        userReview: null,
+        reviewError: null,
+        reviewFormErrors: errors.array(),
+        reviewOld: req.body
+      });
+    }
 
+    await createReview(vehicleId, userId, req.body.rating, req.body.comment);
     res.redirect(`/vehicle/${vehicleId}`);
   } catch (error) {
     next(error);

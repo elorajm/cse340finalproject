@@ -1,5 +1,5 @@
 import { getAllVehicles, getVehicleById, getAllCategories } from "../models/inventory.model.js";
-import { getReviewsByVehicleId } from "../models/review.model.js";
+import { getReviewsByVehicleId, getUserVehicleReview } from "../models/review.model.js";
 
 export async function showInventory(req, res, next) {
   try {
@@ -32,10 +32,19 @@ export async function showVehicle(req, res, next) {
 
     const reviews = await getReviewsByVehicleId(vehicleId);
 
+    let userReview = null;
+    if (req.session.user) {
+      userReview = await getUserVehicleReview(req.session.user.user_id, vehicleId);
+    }
+
     res.render("catalog/vehicle", {
       title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
       vehicle,
-      reviews
+      reviews,
+      userReview,
+      reviewError: req.query.reviewError || null,
+      reviewFormErrors: null,
+      reviewOld: null
     });
   } catch (error) {
     next(error);

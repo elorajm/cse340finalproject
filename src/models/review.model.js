@@ -66,6 +66,14 @@ export async function deleteReview(reviewId) {
     [reviewId]
   );
 }
+export async function getUserVehicleReview(userId, vehicleId) {
+  const result = await db.query(
+    `SELECT * FROM reviews WHERE user_id = $1 AND vehicle_id = $2`,
+    [userId, vehicleId]
+  );
+  return result.rows[0] || null;
+}
+
 export async function getReviewsByUserId(userId) {
   const result = await db.query(
     `

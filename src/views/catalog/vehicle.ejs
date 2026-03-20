@@ -4,8 +4,8 @@
 
 <div class="vehicle-detail">
   <div class="vehicle-detail-image-wrapper">
-    <img 
-      src="<%= vehicle.image_url %>" 
+    <img
+      src="<%= vehicle.image_url %>"
       alt="<%= vehicle.alt_text %>"
       class="vehicle-detail-image"
     >
@@ -13,64 +13,156 @@
 
   <div class="vehicle-detail-info">
     <p><strong>Category:</strong> <%= vehicle.category || 'Uncategorized' %></p>
-    <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
-    <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></p>
-    <p><strong>Description:</strong></p>
-    <p><%= vehicle.description %></p>
-    <p><a href="/inventory">← Back to inventory</a></p>
+    <p><strong>Price:</strong> <span class="vehicle-price">$<%= Number(vehicle.price).toLocaleString() %></span></p>
+    <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %> mi</p>
+    <% if (vehicle.description) { %>
+      <p><strong>Description:</strong></p>
+      <p><%= vehicle.description %></p>
+    <% } %>
+    <p style="margin-top:1.5rem;"><a href="/inventory" style="color:#0f4c81; text-decoration:none; font-size:0.9rem;">&#8592; Back to inventory</a></p>
   </div>
 </div>
 
-<hr>
+<hr style="border:none; border-top:1px solid #e5e7eb; margin:2rem 0;">
 
-<h2>Customer Reviews</h2>
+<!-- ===== REVIEWS SECTION ===== -->
+<div class="reviews-section">
 
-<% if (user) { %>
-  <form action="/reviews/<%= vehicle.vehicle_id %>" method="POST" class="contact-form">
-    <p>
-      <label for="rating">Rating</label><br>
-      <select name="rating" id="rating">
-        <option value="5">5</option>
-        <option value="4">4</option>
-        <option value="3">3</option>
-        <option value="2">2</option>
-        <option value="1">1</option>
-      </select>
-    </p>
+  <%
+    const avgRating = reviews.length > 0
+      ? Math.round(reviews.reduce((s, r) => s + r.rating, 0) / reviews.length * 10) / 10
+      : null;
+  %>
 
-    <p>
-      <label for="comment">Comment</label><br>
-      <textarea id="comment" name="comment" rows="5"></textarea>
-    </p>
-
-    <button type="submit" class="inventory-button">Submit Review</button>
-  </form>
-<% } else { %>
-  <p><a href="/auth/login">Log in</a> to leave a review.</p>
-<% } %>
-
-<% if (reviews.length === 0) { %>
-  <p>No reviews yet.</p>
-<% } else { %>
-  <div class="messages-list">
-    <% reviews.forEach(review => { %>
-      <article class="message-card">
-        <p><strong><%= review.first_name %> <%= review.last_name %></strong></p>
-        <p><strong>Rating:</strong> <%= review.rating %>/5</p>
-        <p><%= review.comment %></p>
-        <p><small><%= new Date(review.created_at).toLocaleString() %></small></p>
-
-        <% if (user && (user.user_id === review.user_id || user.role === "owner" || user.role === "employee")) { %>
-          <p>
-            <a href="/reviews/edit/<%= review.review_id %>">Edit</a>
-          </p>
-          <form action="/reviews/delete/<%= review.review_id %>" method="POST">
-            <button type="submit">Delete</button>
-          </form>
-        <% } %>
-      </article>
-    <% }) %>
+  <div class="reviews-header">
+    <h2 class="reviews-title">Customer Reviews</h2>
+    <% if (avgRating !== null) { %>
+      <div class="reviews-aggregate">
+        <span class="reviews-avg-stars">
+          <% for (let i = 1; i <= 5; i++) { %>
+            <span style="color:<%= i <= Math.round(avgRating) ? '#f59e0b' : '#d1d5db' %>;">&#9733;</span>
+          <% } %>
+        </span>
+        <span class="reviews-avg-num"><%= avgRating %></span>
+        <span class="reviews-count"><%= reviews.length %> review<%= reviews.length !== 1 ? 's' : '' %></span>
+      </div>
+    <% } else { %>
+      <span class="reviews-count">No reviews yet</span>
+    <% } %>
   </div>
-<% } %>
+
+  <!-- Error banners -->
+  <% if (reviewError === 'duplicate') { %>
+    <div class="review-notice review-notice-info">
+      You've already reviewed this vehicle.
+      <% if (userReview) { %>
+        <a href="/reviews/edit/<%= userReview.review_id %>">Edit your review &rarr;</a>
+      <% } %>
+    </div>
+  <% } %>
+
+  <!-- Review form or already-reviewed notice -->
+  <% if (user) { %>
+    <% if (userReview) { %>
+      <div class="review-already">
+        <div class="review-already-inner">
+          <span>&#10003; You reviewed this vehicle on <%= new Date(userReview.created_at).toLocaleDateString() %></span>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <a href="/reviews/edit/<%= userReview.review_id %>" class="btn btn-sm">Edit Review</a>
+            <form action="/reviews/delete/<%= userReview.review_id %>" method="POST"
+                  onsubmit="return confirm('Delete your review?')" style="margin:0;">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+
+      <div class="review-form-section">
+        <h3 class="review-form-title">Leave a Review</h3>
+
+        <% if (reviewFormErrors && reviewFormErrors.length > 0) { %>
+          <div class="form-errors">
+            <ul style="margin:0; padding-left:1.2rem;">
+              <% reviewFormErrors.forEach(e => { %><li><%= e.msg %></li><% }) %>
+            </ul>
+          </div>
+        <% } %>
+
+        <form action="/reviews/<%= vehicle.vehicle_id %>" method="POST" class="review-form">
+          <div class="service-form-group">
+            <label class="service-form-label" for="rating">Your Rating</label>
+            <select name="rating" id="rating" class="service-form-select review-rating-select">
+              <% const ratingLabels = ['','&#9733;&#9733;&#9733;&#9733;&#9733; &mdash; Excellent','&#9733;&#9733;&#9733;&#9733;&#9734; &mdash; Good','&#9733;&#9733;&#9733;&#9734;&#9734; &mdash; Okay','&#9733;&#9733;&#9734;&#9734;&#9734; &mdash; Poor','&#9733;&#9734;&#9734;&#9734;&#9734; &mdash; Terrible']; %>
+              <% [5,4,3,2,1].forEach(n => { %>
+                <option value="<%= n %>" <%=
+                  (reviewOld && reviewOld.rating == n) ? 'selected' :
+                  (n === 5 ? 'selected' : '')
+                %>><%- ratingLabels[n] %></option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="service-form-group">
+            <label class="service-form-label" for="comment">
+              Your Review
+              <span class="service-form-hint">Minimum 10 characters</span>
+            </label>
+            <textarea name="comment" id="comment" rows="4"
+                      class="service-form-textarea"
+                      placeholder="Share your experience with this vehicle…"><%= reviewOld ? reviewOld.comment : '' %></textarea>
+          </div>
+
+          <div class="service-form-actions">
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+          </div>
+        </form>
+      </div>
+
+    <% } %>
+  <% } else { %>
+    <p class="review-login-prompt">
+      <a href="/auth/login">Log in</a> to leave a review.
+    </p>
+  <% } %>
+
+  <!-- Reviews list -->
+  <% if (reviews.length === 0) { %>
+    <p style="color:#9ca3af; font-size:0.93rem; margin-top:1.5rem;">Be the first to review this vehicle.</p>
+  <% } else { %>
+    <div class="review-list">
+      <% reviews.forEach(review => { %>
+        <article class="review-card">
+          <div class="review-card-header">
+            <div>
+              <span class="review-card-name"><%= review.first_name %> <%= review.last_name %></span>
+              <span class="review-card-stars">
+                <% for (let i = 1; i <= 5; i++) { %>
+                  <span style="color:<%= i <= review.rating ? '#f59e0b' : '#d1d5db' %>;">&#9733;</span>
+                <% } %>
+              </span>
+            </div>
+            <time class="review-card-date"><%= new Date(review.created_at).toLocaleDateString() %></time>
+          </div>
+
+          <p class="review-card-comment"><%= review.comment %></p>
+
+          <% if (user && (user.user_id === review.user_id || user.role === 'owner' || user.role === 'employee')) { %>
+            <div class="review-card-actions">
+              <% if (user.user_id === review.user_id) { %>
+                <a href="/reviews/edit/<%= review.review_id %>" class="btn btn-sm">Edit</a>
+              <% } %>
+              <form action="/reviews/delete/<%= review.review_id %>" method="POST"
+                    onsubmit="return confirm('Delete this review?')" style="margin:0;">
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+              </form>
+            </div>
+          <% } %>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+
+</div>
 
 <%- include("../partials/footer") %>

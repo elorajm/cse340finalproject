@@ -1322,3 +1322,187 @@ body.home-page main {
   color: #374151;
   line-height: 1.55;
 }
+
+/* ============================================================
+   VEHICLE DETAIL — REVIEWS SECTION
+   ============================================================ */
+.reviews-section {
+  margin-top: 0;
+}
+
+.reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.reviews-title {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #111827;
+}
+
+.reviews-aggregate {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.reviews-avg-stars {
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+
+.reviews-avg-num {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.reviews-count {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* Already-reviewed notice */
+.review-already {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.review-already-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: #166534;
+}
+
+/* Duplicate / info notice */
+.review-notice {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.review-notice-info {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+}
+
+.review-notice-info a {
+  color: #1d4ed8;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.review-notice-info a:hover {
+  text-decoration: underline;
+}
+
+/* Review submission form */
+.review-form-section {
+  background: #f8f9fb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.review-form-title {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  color: #111827;
+}
+
+.review-form {
+  max-width: 560px;
+}
+
+.review-rating-select {
+  max-width: 340px;
+}
+
+/* Login prompt */
+.review-login-prompt {
+  color: #6b7280;
+  font-size: 0.93rem;
+  margin-bottom: 1.5rem;
+}
+
+.review-login-prompt a {
+  color: #0f4c81;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.review-login-prompt a:hover {
+  text-decoration: underline;
+}
+
+/* Review cards list */
+.review-list {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.review-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  background: white;
+}
+
+.review-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.review-card-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #111827;
+  margin-right: 0.4rem;
+}
+
+.review-card-stars {
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.review-card-date {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 0.1rem;
+}
+
+.review-card-comment {
+  margin: 0 0 0.6rem;
+  font-size: 0.93rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.review-card-actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}

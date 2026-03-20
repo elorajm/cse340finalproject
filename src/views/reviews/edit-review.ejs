@@ -1,35 +1,49 @@
 <%- include("../partials/header") %>
 
-<h1 class="page-title"><%= title %></h1>
+<div class="admin-page-header">
+  <h1 class="page-title"><%= title %></h1>
+</div>
 
-<p>Editing review for <strong><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></strong></p>
+<p style="color:#6b7280; margin-bottom:1.5rem;">
+  Editing your review for
+  <strong><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></strong>
+  &mdash; <a href="/vehicle/<%= vehicle.vehicle_id %>" style="color:#0f4c81; text-decoration:none;">view vehicle</a>
+</p>
 
 <% if (errors.length > 0) { %>
-  <ul class="form-errors">
-    <% errors.forEach(error => { %>
-      <li><%= error.msg %></li>
-    <% }) %>
-  </ul>
+  <div class="form-errors">
+    <ul style="margin:0; padding-left:1.2rem;">
+      <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
+    </ul>
+  </div>
 <% } %>
 
-<form action="/reviews/edit/<%= review.review_id %>" method="POST" class="contact-form">
-  <p>
-    <label for="rating">Rating</label><br>
-    <select name="rating" id="rating">
-      <option value="5" <%= review.rating == 5 ? "selected" : "" %>>5</option>
-      <option value="4" <%= review.rating == 4 ? "selected" : "" %>>4</option>
-      <option value="3" <%= review.rating == 3 ? "selected" : "" %>>3</option>
-      <option value="2" <%= review.rating == 2 ? "selected" : "" %>>2</option>
-      <option value="1" <%= review.rating == 1 ? "selected" : "" %>>1</option>
+<form action="/reviews/edit/<%= review.review_id %>" method="POST" class="service-form">
+
+  <div class="service-form-group">
+    <label class="service-form-label" for="rating">Your Rating</label>
+    <select name="rating" id="rating" class="service-form-select review-rating-select">
+      <% const ratingLabels = ['','&#9733;&#9733;&#9733;&#9733;&#9733; &mdash; Excellent','&#9733;&#9733;&#9733;&#9733;&#9734; &mdash; Good','&#9733;&#9733;&#9733;&#9734;&#9734; &mdash; Okay','&#9733;&#9733;&#9734;&#9734;&#9734; &mdash; Poor','&#9733;&#9734;&#9734;&#9734;&#9734; &mdash; Terrible']; %>
+      <% [5,4,3,2,1].forEach(n => { %>
+        <option value="<%= n %>" <%= review.rating == n ? 'selected' : '' %>><%- ratingLabels[n] %></option>
+      <% }) %>
     </select>
-  </p>
+  </div>
 
-  <p>
-    <label for="comment">Comment</label><br>
-    <textarea id="comment" name="comment" rows="5"><%= review.comment %></textarea>
-  </p>
+  <div class="service-form-group">
+    <label class="service-form-label" for="comment">
+      Your Review
+      <span class="service-form-hint">Minimum 10 characters</span>
+    </label>
+    <textarea name="comment" id="comment" rows="5"
+              class="service-form-textarea"><%= review.comment %></textarea>
+  </div>
 
-  <button type="submit" class="inventory-button">Save Changes</button>
+  <div class="service-form-actions">
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="/vehicle/<%= vehicle.vehicle_id %>" class="btn btn-outline-dark">Cancel</a>
+  </div>
+
 </form>
 
 <%- include("../partials/footer") %>
