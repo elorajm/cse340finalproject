@@ -6,7 +6,10 @@
 </div>
 
 <% if (categories.length === 0) { %>
-  <p>No categories yet.</p>
+  <div class="user-empty-state">
+    <p>No categories yet. Categories let you organise vehicles in the inventory.</p>
+    <a href="/admin/categories/new" class="btn btn-primary btn-sm">Add First Category</a>
+  </div>
 <% } else { %>
   <table class="admin-table">
     <thead>
@@ -19,24 +22,35 @@
     <tbody>
       <% categories.forEach(c => { %>
         <tr>
-          <td><%= c.name %></td>
-          <td><%= c.vehicle_count %></td>
+          <td style="font-weight:600;"><%= c.name %></td>
+          <td>
+            <% if (c.vehicle_count > 0) { %>
+              <span class="cat-vehicle-count"><%= c.vehicle_count %> vehicle<%= c.vehicle_count !== 1 ? 's' : '' %></span>
+            <% } else { %>
+              <span style="color:#9ca3af; font-size:0.85rem;">None</span>
+            <% } %>
+          </td>
           <td class="admin-table-actions">
             <a href="/admin/categories/edit/<%= c.category_id %>" class="btn btn-sm">Edit</a>
             <% if (c.vehicle_count === 0) { %>
               <form action="/admin/categories/delete/<%= c.category_id %>" method="POST"
-                    style="display:inline;"
-                    onsubmit="return confirm('Delete category &quot;<%= c.name %>&quot;?')">
+                    style="display:inline; margin:0;"
+                    onsubmit="return confirm('Delete category \u201C<%= c.name %>\u201D? This cannot be undone.')">
                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
               </form>
             <% } else { %>
-              <span class="btn btn-sm btn-disabled" title="Cannot delete — has vehicles">Delete</span>
+              <span class="btn btn-sm btn-disabled"
+                    title="Remove all vehicles from this category first">Delete</span>
             <% } %>
           </td>
         </tr>
       <% }) %>
     </tbody>
   </table>
+
+  <p class="cat-table-note">
+    Categories with vehicles cannot be deleted. Reassign or remove those vehicles first.
+  </p>
 <% } %>
 
 <%- include("../partials/footer") %>

@@ -36,7 +36,7 @@ export async function showAddVehicleForm(req, res, next) {
 
 export async function addVehicle(req, res, next) {
   try {
-    const { year, make, model, price, mileage, description, category_id } = req.body;
+    const { year, make, model, price, mileage, description, category_id, image_filename } = req.body;
 
     if (!year || !make || !model || !price) {
       const categories = await getAllCategories();
@@ -49,7 +49,7 @@ export async function addVehicle(req, res, next) {
       });
     }
 
-    await createVehicle(year, make, model, price, mileage, description, category_id);
+    await createVehicle(year, make, model, price, mileage, description, category_id, image_filename || null);
     res.redirect("/admin/vehicles");
   } catch (error) {
     next(error);
@@ -76,7 +76,7 @@ export async function showEditVehicleForm(req, res, next) {
 
 export async function editVehicle(req, res, next) {
   try {
-    const { year, make, model, price, mileage, description, category_id } = req.body;
+    const { year, make, model, price, mileage, description, category_id, image_filename } = req.body;
 
     if (!year || !make || !model || !price) {
       const categories = await getAllCategories();
@@ -90,7 +90,7 @@ export async function editVehicle(req, res, next) {
       });
     }
 
-    await updateVehicle(req.params.id, year, make, model, price, mileage, description, category_id);
+    await updateVehicle(req.params.id, year, make, model, price, mileage, description, category_id, image_filename || null);
     res.redirect("/admin/vehicles");
   } catch (error) {
     next(error);

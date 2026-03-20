@@ -1,31 +1,42 @@
 <%- include("../partials/header") %>
 
-<h1 class="page-title"><%= title %></h1>
+<div class="admin-page-header">
+  <h1 class="page-title"><%= title %></h1>
+  <a href="/admin/categories" class="btn btn-outline-dark btn-sm-outline">&#8592; Back to Categories</a>
+</div>
 
 <% if (errors && errors.length > 0) { %>
-  <ul class="form-errors">
-    <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
-  </ul>
+  <div class="form-errors">
+    <ul style="margin:0; padding-left:1.2rem;">
+      <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
+    </ul>
+  </div>
 <% } %>
 
 <% const action = category
      ? `/admin/categories/edit/${category.category_id}`
      : "/admin/categories/new"; %>
 
-<form action="<%= action %>" method="POST" style="max-width:400px;">
-  <p>
-    <label for="name">Category Name <span style="color:red;">*</span></label><br>
+<form action="<%= action %>" method="POST" class="service-form">
+
+  <div class="service-form-group">
+    <label class="service-form-label" for="name">
+      Category Name <span style="color:#dc2626;">*</span>
+      <span class="service-form-hint">Used to group vehicles in inventory (e.g. SUV, Truck, Sedan)</span>
+    </label>
     <input type="text" id="name" name="name" required
            value="<%= old.name || '' %>"
-           style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:6px; font-size:1rem;">
-  </p>
+           class="service-form-select"
+           placeholder="e.g. SUV">
+  </div>
 
-  <div style="display:flex; gap:0.75rem; margin-top:1rem;">
+  <div class="service-form-actions">
     <button type="submit" class="btn btn-primary">
       <%= category ? "Save Changes" : "Add Category" %>
     </button>
-    <a href="/admin/categories" class="btn btn-sm" style="background:#eee; color:#333; display:flex; align-items:center;">Cancel</a>
+    <a href="/admin/categories" class="btn btn-outline-dark">Cancel</a>
   </div>
+
 </form>
 
 <%- include("../partials/footer") %>

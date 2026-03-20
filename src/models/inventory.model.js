@@ -1,6 +1,9 @@
 import db from "./db.js";
 
 function buildImageName(vehicle) {
+  if (vehicle.image_filename) {
+    return `/images/${vehicle.image_filename}`;
+  }
   const year = vehicle.year;
   const make = vehicle.make.toLowerCase().replace(/\s+/g, "");
   const model = vehicle.model.toLowerCase().replace(/\s+/g, "");
@@ -97,24 +100,24 @@ export async function getAllVehicles(categoryId = null, sort = "newest") {
   return vehicles;
 }
 
-export async function createVehicle(year, make, model, price, mileage, description, categoryId) {
+export async function createVehicle(year, make, model, price, mileage, description, categoryId, imageFilename) {
   const result = await db.query(
-    `INSERT INTO vehicles (year, make, model, price, mileage, description, category_id)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `INSERT INTO vehicles (year, make, model, price, mileage, description, category_id, image_filename)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
      RETURNING *`,
-    [year, make, model, price, mileage, description, categoryId || null]
+    [year, make, model, price, mileage, description, categoryId || null, imageFilename || null]
   );
   return result.rows[0];
 }
 
-export async function updateVehicle(vehicleId, year, make, model, price, mileage, description, categoryId) {
+export async function updateVehicle(vehicleId, year, make, model, price, mileage, description, categoryId, imageFilename) {
   const result = await db.query(
     `UPDATE vehicles
      SET year = $1, make = $2, model = $3, price = $4,
-         mileage = $5, description = $6, category_id = $7
-     WHERE vehicle_id = $8
+         mileage = $5, description = $6, category_id = $7, image_filename = $8
+     WHERE vehicle_id = $9
      RETURNING *`,
-    [year, make, model, price, mileage, description, categoryId || null, vehicleId]
+    [year, make, model, price, mileage, description, categoryId || null, imageFilename || null, vehicleId]
   );
   return result.rows[0];
 }

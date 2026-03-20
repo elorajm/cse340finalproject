@@ -1,64 +1,174 @@
 <%- include("../partials/header") %>
 
-<h1><%= title %></h1>
+<div class="admin-page-header">
+  <h1 class="page-title"><%= title %></h1>
+  <a href="/admin/vehicles" class="btn btn-outline-dark btn-sm-outline">&#8592; Back to Vehicles</a>
+</div>
 
 <% if (errors && errors.length > 0) { %>
-  <ul style="color:red;">
-    <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
-  </ul>
+  <div class="form-errors">
+    <ul style="margin:0; padding-left:1.2rem;">
+      <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
+    </ul>
+  </div>
 <% } %>
 
 <% const action = vehicle ? `/admin/vehicles/edit/${vehicle.vehicle_id}` : "/admin/vehicles/new"; %>
 
-<form action="<%= action %>" method="POST">
-  <p>
-    <label for="year">Year <span style="color:red;">*</span></label><br>
-    <input type="number" id="year" name="year" min="1900" max="2100" required
-           value="<%= old.year || '' %>">
-  </p>
+<div class="vf-layout">
 
-  <p>
-    <label for="make">Make <span style="color:red;">*</span></label><br>
-    <input type="text" id="make" name="make" required value="<%= old.make || '' %>">
-  </p>
+  <!-- ── Left: form fields ── -->
+  <form action="<%= action %>" method="POST" class="vf-form">
 
-  <p>
-    <label for="model">Model <span style="color:red;">*</span></label><br>
-    <input type="text" id="model" name="model" required value="<%= old.model || '' %>">
-  </p>
+    <div class="vf-row-3">
+      <div class="service-form-group">
+        <label class="service-form-label" for="year">Year <span style="color:#dc2626;">*</span></label>
+        <input type="number" id="year" name="year" min="1900" max="2100" required
+               class="service-form-select vf-input-short"
+               value="<%= old.year || '' %>"
+               oninput="updatePreview()">
+      </div>
 
-  <p>
-    <label for="price">Price <span style="color:red;">*</span></label><br>
-    <input type="number" id="price" name="price" min="0" step="0.01" required
-           value="<%= old.price || '' %>">
-  </p>
+      <div class="service-form-group">
+        <label class="service-form-label" for="make">Make <span style="color:#dc2626;">*</span></label>
+        <input type="text" id="make" name="make" required
+               class="service-form-select"
+               value="<%= old.make || '' %>"
+               placeholder="e.g. Chevrolet"
+               oninput="updatePreview()">
+      </div>
 
-  <p>
-    <label for="mileage">Mileage</label><br>
-    <input type="number" id="mileage" name="mileage" min="0"
-           value="<%= old.mileage || '' %>">
-  </p>
+      <div class="service-form-group">
+        <label class="service-form-label" for="model">Model <span style="color:#dc2626;">*</span></label>
+        <input type="text" id="model" name="model" required
+               class="service-form-select"
+               value="<%= old.model || '' %>"
+               placeholder="e.g. Corvette"
+               oninput="updatePreview()">
+      </div>
+    </div>
 
-  <p>
-    <label for="category_id">Category</label><br>
-    <select id="category_id" name="category_id">
-      <option value="">-- No category --</option>
-      <% categories.forEach(c => { %>
-        <option value="<%= c.category_id %>"
-          <%= (old.category_id == c.category_id) ? "selected" : "" %>>
-          <%= c.name %>
-        </option>
-      <% }) %>
-    </select>
-  </p>
+    <div class="vf-row-2">
+      <div class="service-form-group">
+        <label class="service-form-label" for="price">Price ($) <span style="color:#dc2626;">*</span></label>
+        <input type="number" id="price" name="price" min="0" step="0.01" required
+               class="service-form-select"
+               value="<%= old.price || '' %>"
+               placeholder="e.g. 48000">
+      </div>
 
-  <p>
-    <label for="description">Description</label><br>
-    <textarea id="description" name="description" rows="4" cols="40"><%= old.description || '' %></textarea>
-  </p>
+      <div class="service-form-group">
+        <label class="service-form-label" for="mileage">Mileage</label>
+        <input type="number" id="mileage" name="mileage" min="0"
+               class="service-form-select"
+               value="<%= old.mileage || '' %>"
+               placeholder="e.g. 12500">
+      </div>
+    </div>
 
-  <button type="submit"><%= vehicle ? "Save Changes" : "Add Vehicle" %></button>
-  <a href="/admin/vehicles">Cancel</a>
-</form>
+    <div class="service-form-group">
+      <label class="service-form-label" for="category_id">Category</label>
+      <select id="category_id" name="category_id" class="service-form-select">
+        <option value="">-- No category --</option>
+        <% categories.forEach(c => { %>
+          <option value="<%= c.category_id %>"
+            <%= (old.category_id == c.category_id) ? "selected" : "" %>>
+            <%= c.name %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="service-form-group">
+      <label class="service-form-label" for="description">Description</label>
+      <textarea id="description" name="description" rows="4"
+                class="service-form-textarea"
+                placeholder="Describe the vehicle's condition, features, history…"><%= old.description || '' %></textarea>
+    </div>
+
+    <div class="service-form-group">
+      <label class="service-form-label" for="image_filename">
+        Image File
+        <span class="service-form-hint">Leave blank to use the auto-generated filename</span>
+      </label>
+      <input type="text" id="image_filename" name="image_filename"
+             class="service-form-select"
+             value="<%= old.image_filename || '' %>"
+             placeholder="e.g. 2020chevroletcorvette.jpg"
+             oninput="updatePreview()">
+      <span id="auto-name-hint" class="vf-auto-hint"></span>
+    </div>
+
+    <div class="service-form-actions" style="margin-top:1.5rem;">
+      <button type="submit" class="btn btn-primary"><%= vehicle ? "Save Changes" : "Add Vehicle" %></button>
+      <a href="/admin/vehicles" class="btn btn-outline-dark">Cancel</a>
+    </div>
+
+  </form>
+
+  <!-- ── Right: image preview ── -->
+  <div class="vf-preview-col">
+    <div class="vf-preview-card">
+      <p class="vf-preview-label">Image Preview</p>
+      <div class="vf-preview-img-wrap">
+        <img id="img-preview"
+             src="<%= old.image_url || '' %>"
+             alt="Vehicle preview"
+             class="vf-preview-img"
+             onerror="this.style.display='none'; document.getElementById('img-missing').style.display='flex';"
+             onload="this.style.display='block'; document.getElementById('img-missing').style.display='none';">
+        <div id="img-missing" class="vf-img-missing" style="display:<%= (old.image_url) ? 'none' : 'flex' %>;">
+          <span>&#128444;</span>
+          <span>No image</span>
+        </div>
+      </div>
+      <p id="img-filename-display" class="vf-img-filename-display">
+        <%= old.image_url ? old.image_url.replace('/images/', '') : '—' %>
+      </p>
+      <p class="vf-img-hint">
+        Place images in <code>public/images/</code><br>
+        Naming convention: <code>{year}{make}{model}.jpg</code>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function autoFilename() {
+    const y = document.getElementById('year').value.trim();
+    const m = document.getElementById('make').value.trim().toLowerCase().replace(/\s+/g, '');
+    const mo = document.getElementById('model').value.trim().toLowerCase().replace(/\s+/g, '');
+    return (y && m && mo) ? `${y}${m}${mo}.jpg` : '';
+  }
+
+  function updatePreview() {
+    const custom = document.getElementById('image_filename').value.trim();
+    const auto   = autoFilename();
+    const active = custom || auto;
+
+    // Hint below the image_filename field
+    const hint = document.getElementById('auto-name-hint');
+    hint.textContent = (!custom && auto) ? `Auto: ${auto}` : '';
+
+    // Display filename below preview
+    document.getElementById('img-filename-display').textContent = active || '—';
+
+    // Update preview image
+    const img     = document.getElementById('img-preview');
+    const missing = document.getElementById('img-missing');
+    if (active) {
+      img.src = `/images/${active}`;
+      img.style.display = 'block';
+      missing.style.display = 'none';
+    } else {
+      img.style.display = 'none';
+      missing.style.display = 'flex';
+    }
+  }
+
+  // Run once on load to set up hint and preview
+  updatePreview();
+</script>
 
 <%- include("../partials/footer") %>

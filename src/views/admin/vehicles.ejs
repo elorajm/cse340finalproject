@@ -6,14 +6,16 @@
 </div>
 
 <% if (vehicles.length === 0) { %>
-  <p>No vehicles in inventory yet.</p>
+  <div class="user-empty-state">
+    <p>No vehicles in inventory yet.</p>
+    <a href="/admin/vehicles/new" class="btn btn-primary btn-sm">Add First Vehicle</a>
+  </div>
 <% } else { %>
   <table class="admin-table">
     <thead>
       <tr>
-        <th>Year</th>
-        <th>Make</th>
-        <th>Model</th>
+        <th style="width:70px;">Image</th>
+        <th>Vehicle</th>
         <th>Category</th>
         <th style="text-align:right;">Price</th>
         <th style="text-align:right;">Mileage</th>
@@ -23,17 +25,30 @@
     <tbody>
       <% vehicles.forEach(v => { %>
         <tr>
-          <td><%= v.year %></td>
-          <td><%= v.make %></td>
-          <td><%= v.model %></td>
-          <td><%= v.category || "—" %></td>
-          <td style="text-align:right;">$<%= Number(v.price).toLocaleString() %></td>
-          <td style="text-align:right;"><%= Number(v.mileage).toLocaleString() %></td>
+          <td>
+            <div class="vehicle-thumb-wrap">
+              <img src="<%= v.image_url %>"
+                   alt="<%= v.alt_text %>"
+                   class="vehicle-thumb"
+                   title="<%= v.image_url %>"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="vehicle-thumb-missing" style="display:none;" title="Missing: <%= v.image_url %>">&#128444;</div>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:600; color:#111827;"><%= v.year %> <%= v.make %> <%= v.model %></div>
+            <div style="font-size:0.78rem; color:#9ca3af; margin-top:0.1rem;">
+              <%= v.image_filename ? v.image_filename : (v.year + v.make.toLowerCase().replace(/\s+/g,'') + v.model.toLowerCase().replace(/\s+/g,'') + '.jpg') %>
+            </div>
+          </td>
+          <td><%= v.category || '<span style="color:#9ca3af;">—</span>' %></td>
+          <td style="text-align:right; font-weight:600; color:#0a7d32;">$<%= Number(v.price).toLocaleString() %></td>
+          <td style="text-align:right;"><%= Number(v.mileage).toLocaleString() %> mi</td>
           <td>
             <div class="admin-table-actions">
               <a href="/admin/vehicles/edit/<%= v.vehicle_id %>" class="btn btn-sm">Edit</a>
-              <form action="/admin/vehicles/delete/<%= v.vehicle_id %>" method="POST"
-                    onsubmit="return confirm('Delete <%= v.year %> <%= v.make %> <%= v.model %>?')">
+              <form action="/admin/vehicles/delete/<%= v.vehicle_id %>" method="POST" style="margin:0;"
+                    onsubmit="return confirm('Delete <%= v.year %> <%= v.make %> <%= v.model %>? This cannot be undone.')">
                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
               </form>
             </div>
