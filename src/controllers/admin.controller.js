@@ -1,7 +1,7 @@
-import { getAllReviews } from "../models/review.model.js";
+import { getAllReviews, getReviewsByUserId } from "../models/review.model.js";
 import { getAllVehicles, getAllCategories } from "../models/inventory.model.js";
 import { getAllUsers } from "../models/auth.model.js";
-import { getAllRequests } from "../models/service.model.js";
+import { getAllRequests, getUserRequests } from "../models/service.model.js";
 import { getAllContactMessages } from "../models/contact.model.js";
 
 export async function showAdminDashboard(req, res, next) {
@@ -53,10 +53,21 @@ export async function showEmployeeDashboard(req, res, next) {
   }
 }
 
-export function showUserDashboard(req, res) {
-  res.render("admin/user-dashboard", {
-    title: "My Dashboard"
-  });
+export async function showUserDashboard(req, res, next) {
+  try {
+    const userId = req.session.user.user_id;
+    const [serviceRequests, reviews] = await Promise.all([
+      getUserRequests(userId),
+      getReviewsByUserId(userId)
+    ]);
+    res.render("admin/user-dashboard", {
+      title: "My Dashboard",
+      serviceRequests,
+      reviews
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 export async function showReviewModeration(req, res, next) {

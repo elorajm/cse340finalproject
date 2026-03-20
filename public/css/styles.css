@@ -1017,3 +1017,179 @@ body.home-page main {
   font-size: 0.88rem;
   text-align: center;
 }
+
+/* ============================================================
+   USER DASHBOARD — ACCOUNT INFO CARD
+   ============================================================ */
+.user-info-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: #f8f9fb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.user-info-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #0f4c81;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.user-info-body {
+  flex: 1;
+  min-width: 160px;
+}
+
+.user-info-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.user-info-email {
+  font-size: 0.88rem;
+  color: #6b7280;
+  margin-top: 0.15rem;
+}
+
+.user-info-meta {
+  display: flex;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.user-info-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.user-info-stat-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1;
+}
+
+.user-info-stat-label {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   USER DASHBOARD — SERVICE REQUEST LIST
+   ============================================================ */
+.user-request-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.user-request-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  background: #fafafa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.user-request-main {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.user-request-type {
+  font-weight: 600;
+  font-size: 0.93rem;
+  color: #111827;
+}
+
+.user-request-vehicle {
+  font-size: 0.88rem;
+  color: #6b7280;
+}
+
+.user-request-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.user-request-notes {
+  margin: 0.15rem 0.85rem 0.4rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* ============================================================
+   USER DASHBOARD — REVIEWS LIST
+   ============================================================ */
+.user-review-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.user-review-row {
+  padding: 0.85rem 1rem;
+  background: #fafafa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.user-review-vehicle {
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.user-review-stars {
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+}
+
+.user-review-comment {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.55;
+}
+
+/* ============================================================
+   USER DASHBOARD — EMPTY STATE
+   ============================================================ */
+.user-empty-state {
+  padding: 1.5rem;
+  background: #f8f9fb;
+  border: 1px dashed #d1d5db;
+  border-radius: 10px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.93rem;
+}
+
+.user-empty-state p {
+  margin: 0 0 0.85rem;
+}

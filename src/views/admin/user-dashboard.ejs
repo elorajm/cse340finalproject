@@ -1,13 +1,129 @@
 <%- include("../partials/header") %>
 
-<h1 class="page-title"><%= title %></h1>
-<p>Welcome to your dashboard.</p>
+<div class="dashboard-header">
+  <div>
+    <h1 class="page-title" style="margin-bottom:0.25rem;">My Account</h1>
+    <p style="color:#6b7280; margin:0;">Welcome back, <%= user.first_name %>.</p>
+  </div>
+</div>
 
-<ul>
-  <li>View your account</li>
-  <li>View your reviews</li>
-  <li><a href="/service/my-requests">View my service requests</a></li>
-  <li><a href="/service/new">Request a service</a></li>
-</ul>
+<!-- Account info card -->
+<div class="user-info-card">
+  <div class="user-info-avatar"><%= user.first_name.charAt(0).toUpperCase() %><%= user.last_name.charAt(0).toUpperCase() %></div>
+  <div class="user-info-body">
+    <div class="user-info-name"><%= user.first_name %> <%= user.last_name %></div>
+    <div class="user-info-email"><%= user.email %></div>
+    <div style="margin-top:0.4rem;">
+      <span class="role-badge role-<%= user.role %>"><%= user.role %></span>
+    </div>
+  </div>
+  <div class="user-info-meta">
+    <div class="user-info-stat">
+      <span class="user-info-stat-num"><%= serviceRequests.length %></span>
+      <span class="user-info-stat-label">Service Requests</span>
+    </div>
+    <div class="user-info-stat">
+      <span class="user-info-stat-num"><%= reviews.length %></span>
+      <span class="user-info-stat-label">Reviews</span>
+    </div>
+  </div>
+</div>
+
+<!-- Quick actions -->
+<h2 class="dashboard-section-title">Quick Actions</h2>
+<div class="dashboard-grid" style="margin-bottom:2rem;">
+
+  <a href="/service/new" class="dash-card">
+    <span class="dash-card-icon">&#128296;</span>
+    <div class="dash-card-body">
+      <h3>Request Service</h3>
+      <p>Submit a new vehicle service request.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+  <a href="/inventory" class="dash-card">
+    <span class="dash-card-icon">&#11088;</span>
+    <div class="dash-card-body">
+      <h3>Leave a Review</h3>
+      <p>Browse inventory and review a vehicle you own.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+  <a href="/service/my-requests" class="dash-card">
+    <span class="dash-card-icon">&#128196;</span>
+    <div class="dash-card-body">
+      <h3>All My Requests</h3>
+      <p>View the full history of your service requests.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+</div>
+
+<!-- Service requests summary -->
+<h2 class="dashboard-section-title">Recent Service Requests</h2>
+<% if (serviceRequests.length === 0) { %>
+  <div class="user-empty-state">
+    <p>You haven't submitted any service requests yet.</p>
+    <a href="/service/new" class="btn btn-primary btn-sm">Request Service</a>
+  </div>
+<% } else { %>
+  <div class="user-request-list">
+    <% serviceRequests.slice(0, 5).forEach(r => { %>
+      <div class="user-request-row">
+        <div class="user-request-main">
+          <span class="service-status-badge service-status-<%= r.status.toLowerCase().replace(/ /g, '-') %>">
+            <%= r.status %>
+          </span>
+          <span class="user-request-type"><%= r.service_type %></span>
+          <% if (r.year && r.make && r.model) { %>
+            <span class="user-request-vehicle">&mdash; <%= r.year %> <%= r.make %> <%= r.model %></span>
+          <% } %>
+        </div>
+        <time class="user-request-date"><%= new Date(r.created_at).toLocaleDateString() %></time>
+      </div>
+      <% if (r.notes) { %>
+        <p class="user-request-notes">Staff note: <em><%= r.notes %></em></p>
+      <% } %>
+    <% }) %>
+  </div>
+  <% if (serviceRequests.length > 5) { %>
+    <p style="margin-top:0.75rem; font-size:0.88rem;">
+      <a href="/service/my-requests" style="color:#0f4c81;">View all <%= serviceRequests.length %> requests &rarr;</a>
+    </p>
+  <% } %>
+<% } %>
+
+<!-- Reviews summary -->
+<h2 class="dashboard-section-title" style="margin-top:2rem;">My Reviews</h2>
+<% if (reviews.length === 0) { %>
+  <div class="user-empty-state">
+    <p>You haven't written any reviews yet.</p>
+    <a href="/inventory" class="btn btn-primary btn-sm">Browse Inventory</a>
+  </div>
+<% } else { %>
+  <div class="user-review-list">
+    <% reviews.forEach(rev => { %>
+      <div class="user-review-row">
+        <div class="user-review-vehicle">
+          <a href="/vehicle/<%= rev.vehicle_id %>" style="color:#111827; font-weight:600; text-decoration:none;">
+            <%= rev.year %> <%= rev.make %> <%= rev.model %>
+          </a>
+        </div>
+        <div class="user-review-stars">
+          <% for (let i = 1; i <= 5; i++) { %>
+            <span style="color: <%= i <= rev.rating ? '#f59e0b' : '#d1d5db' %>;">&#9733;</span>
+          <% } %>
+        </div>
+        <% if (rev.comment) { %>
+          <p class="user-review-comment"><%= rev.comment %></p>
+        <% } %>
+        <time class="user-request-date"><%= new Date(rev.created_at).toLocaleDateString() %></time>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
 
 <%- include("../partials/footer") %>

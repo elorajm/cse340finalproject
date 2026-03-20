@@ -66,6 +66,20 @@ export async function deleteReview(reviewId) {
     [reviewId]
   );
 }
+export async function getReviewsByUserId(userId) {
+  const result = await db.query(
+    `
+      SELECT r.*, v.year, v.make, v.model, v.vehicle_id
+      FROM reviews r
+      JOIN vehicles v ON r.vehicle_id = v.vehicle_id
+      WHERE r.user_id = $1
+      ORDER BY r.created_at DESC
+    `,
+    [userId]
+  );
+  return result.rows;
+}
+
 export async function getAllReviews() {
   const result = await db.query(`
     SELECT 
