@@ -16,7 +16,13 @@
 
     <a href="/" class="site-brand">Jake's Car Dealership</a>
 
-    <nav class="main-nav" aria-label="Main navigation">
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
 
       <%
         function navActive(paths) {
@@ -45,15 +51,19 @@
           <a href="/service/my-requests"
              class="nav-link <%= navActive({startsWith:'/service/my'}) %>">My&nbsp;Service&nbsp;Requests</a>
 
-          <a href="/admin/dashboard"
-             class="nav-link <%= navActive('/admin/dashboard') %>">Dashboard</a>
+          <% if (user.role === "user") { %>
+            <a href="/admin/dashboard"
+               class="nav-link <%= navActive('/admin/dashboard') %>">Dashboard</a>
 
-          <% if (user.role === "employee" || user.role === "owner") { %>
+          <% } else if (user.role === "employee") { %>
+            <a href="/admin/employee"
+               class="nav-link <%= navActive('/admin/employee') %>">Dashboard</a>
+
+          <% } else if (user.role === "owner") { %>
+            <a href="/admin/dashboard"
+               class="nav-link nav-role-link <%= navActive('/admin/dashboard') %>">User&nbsp;Dashboard</a>
             <a href="/admin/employee"
                class="nav-link nav-role-link <%= navActive('/admin/employee') %>">Employee&nbsp;Panel</a>
-          <% } %>
-
-          <% if (user.role === "owner") { %>
             <a href="/admin/owner"
                class="nav-link nav-role-link nav-owner-link <%= navActive('/admin/owner') %>">Owner&nbsp;Panel</a>
           <% } %>
@@ -86,3 +96,66 @@
 </header>
 
 <main>
+
+<% if (typeof flash !== 'undefined' && flash.length > 0) { %>
+  <div class="flash-container" id="flash-container">
+    <% flash.forEach(function(f, i) { %>
+      <div class="flash flash-<%= f.type %>" role="alert" id="flash-<%= i %>">
+        <span class="flash-msg"><%= f.message %></span>
+        <button class="flash-close" aria-label="Dismiss" onclick="this.parentElement.remove()">&#x2715;</button>
+      </div>
+    <% }); %>
+  </div>
+<% } %>
+
+<% if (typeof query !== 'undefined' && query.bye === '1') { %>
+  <div class="flash-container" id="flash-container-bye">
+    <div class="flash flash-info" role="alert">
+      <span class="flash-msg">You have been logged out successfully.</span>
+      <button class="flash-close" aria-label="Dismiss" onclick="this.parentElement.remove()">&#x2715;</button>
+    </div>
+  </div>
+<% } %>
+
+<script>
+  (function() {
+    // Auto-dismiss flash messages
+    setTimeout(function() {
+      ['flash-container','flash-container-bye'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.style.transition = 'opacity 0.5s';
+          el.style.opacity = '0';
+          setTimeout(function() { if (el) el.remove(); }, 500);
+        }
+      });
+    }, 5000);
+
+    // Hamburger menu toggle
+    var btn = document.getElementById('nav-hamburger');
+    var nav = document.getElementById('main-nav');
+    if (btn && nav) {
+      btn.addEventListener('click', function() {
+        var open = nav.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', String(open));
+        btn.classList.toggle('is-open', open);
+      });
+      // Close on nav link/button click
+      nav.querySelectorAll('a, button').forEach(function(el) {
+        el.addEventListener('click', function() {
+          nav.classList.remove('nav-open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.classList.remove('is-open');
+        });
+      });
+      // Close on outside click
+      document.addEventListener('click', function(e) {
+        if (!nav.contains(e.target) && !btn.contains(e.target)) {
+          nav.classList.remove('nav-open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.classList.remove('is-open');
+        }
+      });
+    }
+  })();
+</script>

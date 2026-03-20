@@ -2128,3 +2128,1050 @@ body.home-page main {
     grid-template-columns: 1fr;
   }
 }
+
+/* =============================================
+   FLASH MESSAGES
+   ============================================= */
+
+.flash-container {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto 0 auto;
+  padding: 0.75rem 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.flash {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.925rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.flash-msg {
+  flex: 1;
+}
+
+.flash-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0.15rem 0.3rem;
+  border-radius: 4px;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+  color: inherit;
+}
+
+.flash-close:hover {
+  opacity: 1;
+}
+
+.flash-success {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #15803d;
+}
+
+.flash-info {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.flash-warning {
+  background: #fffbeb;
+  border-color: #fcd34d;
+  color: #b45309;
+}
+
+.flash-error {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+/* =============================================
+   ERROR PAGES
+   ============================================= */
+
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1.5rem;
+  min-height: 40vh;
+}
+
+.error-code {
+  font-size: 6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #c7d2e0;
+  letter-spacing: -0.05em;
+  margin-bottom: 1rem;
+}
+
+.error-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.75rem;
+}
+
+.error-body {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0 0 2rem;
+  max-width: 400px;
+}
+
+.error-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* =============================================
+   CONTACT MESSAGES
+   ============================================= */
+
+.filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0 auto 1.75rem;
+  max-width: 900px;
+  padding: 0 1rem;
+}
+
+.filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.filter-tab:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.filter-tab-active {
+  background: #1e40af;
+  color: #fff;
+  border-color: #1e40af;
+}
+
+.filter-tab-active:hover {
+  background: #1e3a8a;
+  color: #fff;
+}
+
+.filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.3rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(0,0,0,0.12);
+  color: inherit;
+}
+
+/* Messages list */
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.message-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.msg-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.msg-card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.msg-card-subject {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.msg-card-time {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.msg-card-from {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0 0 0.75rem;
+}
+
+.msg-card-from a {
+  color: #2563eb;
+}
+
+.msg-card-body {
+  font-size: 0.925rem;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 0.75rem;
+  white-space: pre-wrap;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-received {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-replied {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-closed {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+}
+
+/* Internal notes display */
+.msg-notes-display {
+  font-size: 0.85rem;
+  color: #64748b;
+  background: #f8fafc;
+  border-left: 3px solid #cbd5e1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0 0.375rem 0.375rem 0;
+  margin-bottom: 0.75rem;
+}
+
+/* Update form */
+.msg-update-section {
+  border-top: 1px solid #f1f5f9;
+  padding-top: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.msg-status-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.msg-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.msg-form-label {
+  font-size: 0.775rem;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.msg-status-select {
+  padding: 0.4rem 0.65rem;
+  font-size: 0.875rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  background: #fff;
+  color: #1e293b;
+  cursor: pointer;
+}
+
+.msg-notes-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  background: #fff;
+  color: #1e293b;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.msg-notes-input:focus,
+.msg-status-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  padding: 3rem 1rem;
+}
+
+/* =============================================
+   PROMOTIONS & OFFERS
+   ============================================= */
+
+/* Owner dashboard highlight card */
+.dash-card-highlight {
+  border-color: #fde68a;
+  background: linear-gradient(135deg, #fffbeb 0%, #fff 100%);
+}
+
+.dash-card-highlight:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 4px 12px rgba(245,158,11,0.15);
+}
+
+/* Send-promotion form */
+.promo-target-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.promo-target-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #334155;
+  cursor: pointer;
+}
+
+.promo-target-radio {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+/* User list for selection */
+.promo-user-list {
+  margin-top: 0.25rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+}
+
+.promo-user-list-hint {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0 0 0.75rem;
+}
+
+.promo-user-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.promo-user-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.1s;
+  flex-wrap: wrap;
+}
+
+.promo-user-checkbox-label:hover {
+  background: #e2e8f0;
+}
+
+.promo-user-checkbox {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #2563eb;
+  flex-shrink: 0;
+}
+
+.promo-user-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.promo-user-email {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* Promo history badge */
+.promo-code-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  border-radius: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* User dashboard — promotions inbox */
+.promo-unread-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+}
+
+.promo-inbox {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.promo-inbox-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.1rem 1.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.promo-unread {
+  border-left: 4px solid #f59e0b;
+  background: #fffbeb;
+}
+
+.promo-read {
+  opacity: 0.7;
+}
+
+.promo-inbox-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.promo-inbox-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.promo-new-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #f59e0b;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.promo-inbox-title {
+  font-size: 0.975rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.promo-inbox-message {
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 0 0.65rem;
+  white-space: pre-wrap;
+}
+
+.promo-code-block {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  background: #fef3c7;
+  border: 1px dashed #f59e0b;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: #92400e;
+  margin-bottom: 0.5rem;
+}
+
+.promo-code-text {
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.promo-expires {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0.25rem 0 0;
+}
+
+/* =============================================
+   OWNER — REGISTERED USERS TABLE
+   ============================================= */
+
+.owner-users-toolbar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 0 auto 1rem;
+  max-width: 900px;
+  padding: 0 1rem;
+}
+
+.owner-users-table-wrap {
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+  padding: 0 1rem;
+  overflow-x: auto;
+}
+
+.owner-users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.owner-users-table thead {
+  background: #f8fafc;
+}
+
+.owner-users-table th {
+  padding: 0.65rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.owner-users-table td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.owner-users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.owner-users-table tbody tr:hover td {
+  background: #f8fafc;
+}
+
+.ou-name {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.ou-email {
+  color: #64748b;
+}
+
+.ou-date {
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+/* Extra-small outline button */
+.btn-xs {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+
+.btn-outline:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #1e293b;
+}
+
+/* ============================================================
+   GENERIC FORM UTILITY CLASSES
+   (used by send-promotion.ejs and similar generic forms)
+   ============================================================ */
+
+.form-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.875rem;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-optional {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #9ca3af;
+}
+
+.req {
+  color: #dc2626;
+}
+
+.form-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: #1e293b;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+}
+
+.form-error-list {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-error-item {
+  font-size: 0.875rem;
+  color: #b91c1c;
+  margin: 0.2rem 0;
+}
+
+/* ============================================================
+   HAMBURGER BUTTON (base — hidden on desktop, shown on mobile)
+   ============================================================ */
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.18);
+  cursor: pointer;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #94a3b8;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.nav-hamburger:hover {
+  border-color: rgba(255,255,255,0.35);
+}
+
+.nav-hamburger:hover span {
+  background: #cbd5e1;
+}
+
+.nav-hamburger.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-hamburger.is-open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.nav-hamburger.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ============================================================
+   RESPONSIVE OVERRIDES — 768px
+   (replaces/extends the earlier 768px block for nav)
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  /* Keep header as a row so hamburger sits inline */
+  .site-header-inner {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.6rem 0;
+  }
+
+  .site-brand {
+    flex: 1;
+    order: 1;
+  }
+
+  /* Show hamburger button */
+  .nav-hamburger {
+    display: flex;
+    order: 2;
+  }
+
+  /* Nav: hidden by default on mobile, revealed by JS */
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    order: 10;
+    width: 100%;
+    flex-basis: 100%;
+    background: #0f2240;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 0.5rem 0 0.75rem;
+    gap: 0;
+    /* override the inline gap from main desktop styles */
+  }
+
+  .main-nav.nav-open {
+    display: flex;
+  }
+
+  /* All nav groups become full-width vertical stacks */
+  .nav-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+  }
+
+  .nav-group + .nav-group {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 0.25rem;
+    padding-top: 0.25rem;
+  }
+
+  /* Hide the vertical divider lines between groups */
+  .nav-divider {
+    display: none;
+  }
+
+  /* Nav links: full-width tap targets */
+  .nav-link {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+    border-radius: 0;
+    border-bottom: none;
+  }
+
+  .nav-link:hover,
+  .nav-link:focus {
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* Keep the active gold underline as a left border on mobile */
+  .nav-active {
+    border-bottom: none;
+    border-left: 3px solid #f0b429;
+    padding-left: calc(1.25rem - 3px);
+  }
+
+  /* Auth / meta groups: horizontal row */
+  .nav-auth,
+  .nav-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.6rem 1.25rem;
+    gap: 0.75rem;
+  }
+
+  /* Always show welcome text in the mobile panel */
+  .nav-welcome {
+    display: inline !important;
+    font-size: 0.85rem;
+  }
+
+  /* Register btn inline in the panel */
+  .nav-register-btn {
+    display: inline-flex;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.875rem;
+  }
+
+  .nav-logout-btn {
+    font-size: 0.875rem;
+    padding: 0.35rem 0.8rem;
+  }
+
+  /* Role-colored links keep their color in the panel */
+  .nav-role-link,
+  .nav-owner-link {
+    display: block;
+  }
+
+  /* Admin tables: scroll horizontally rather than overflow */
+  .admin-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Make sure the owner table wrapper always scrolls */
+  .owner-users-table-wrap {
+    padding: 0;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE OVERRIDES — 480px
+   ============================================================ */
+
+@media (max-width: 480px) {
+
+  /* Ensure header stays row (overrides old column rule) */
+  .site-header-inner {
+    flex-direction: row !important;
+    align-items: center;
+  }
+
+  .site-brand {
+    flex-basis: auto;
+    order: 1;
+    font-size: 0.95rem;
+  }
+
+  .main-nav {
+    order: 10;
+    flex-basis: 100%;
+  }
+
+  /* Two-column form rows collapse to one */
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Form card: less padding on small screens */
+  .form-card {
+    padding: 1.25rem 1rem;
+  }
+
+  /* Form actions: stack on small */
+  .form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Admin page header: stack title + actions */
+  .admin-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  /* Admin tables: slightly tighter cells */
+  .admin-table th,
+  .admin-table td {
+    padding: 0.5rem 0.65rem;
+    font-size: 0.8rem;
+  }
+
+  /* Owner users table: tighter too */
+  .owner-users-table th,
+  .owner-users-table td {
+    padding: 0.5rem 0.65rem;
+    font-size: 0.8rem;
+  }
+
+  /* Owner toolbar: stack buttons */
+  .owner-users-toolbar {
+    flex-direction: column;
+  }
+
+  /* User request rows: allow wrap */
+  .user-request-row {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  /* User info card meta: wrap to two items per row */
+  .user-info-meta {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  /* Promo inbox: tighter padding */
+  .promo-inbox-card {
+    padding: 0.85rem 0.95rem;
+  }
+
+  /* Dash header: allow wrapping */
+  .dashboard-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Promo target options: stack vertically */
+  .promo-target-options {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Contact filter tabs: wrap and stack */
+  .msg-filter-tabs {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .msg-filter-tab {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.65rem;
+  }
+
+  /* Error pages: scale down huge number */
+  .error-code {
+    font-size: 4rem;
+  }
+
+  /* Hero: even smaller on phone */
+  .hero {
+    min-height: 280px;
+    padding: 2rem 1rem;
+  }
+
+  .hero-heading {
+    font-size: 1.6rem;
+  }
+}

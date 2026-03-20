@@ -1,5 +1,12 @@
 import { validationResult } from "express-validator";
-import { createContactMessage, getAllContactMessages } from "../models/contact.model.js";
+import {
+  createContactMessage,
+  getAllContactMessages,
+  getContactMessageById,
+  updateContactMessageStatus
+} from "../models/contact.model.js";
+
+const VALID_MESSAGE_STATUSES = ["received", "replied", "closed"];
 
 export function showContactForm(req, res) {
   res.render("contact", {
@@ -40,8 +47,32 @@ export async function showContactMessages(req, res, next) {
 
     res.render("admin/contact-messages", {
       title: "Contact Messages",
-      messages
+      messages,
+      statusFilter: req.query.status || "all"
     });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function updateMessageStatus(req, res, next) {
+  try {
+    const message = await getContactMessageById(req.params.id);
+    if (!message) {
+      const err = new Error("Message not found.");
+      err.status = 404;
+      return next(err);
+    }
+
+    const { status, notes } = req.body;
+    if (!VALID_MESSAGE_STATUSES.includes(status)) {
+      req.flash("error", "Invalid status.");
+      return res.redirect("/contact/messages");
+    }
+
+    await updateContactMessageStatus(req.params.id, status, notes);
+    req.flash("success", "Message status updated.");
+    res.redirect("/contact/messages");
   } catch (error) {
     next(error);
   }

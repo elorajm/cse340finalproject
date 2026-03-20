@@ -1,0 +1,44 @@
+<%- include("../partials/header") %>
+
+<div class="admin-page-header">
+  <div>
+    <h1 class="page-title">Promotions &amp; Offers</h1>
+    <p class="page-subtitle"><%= promotions.length %> promotion<%= promotions.length !== 1 ? 's' : '' %> sent.</p>
+  </div>
+  <a href="/admin/promotions/new" class="btn btn-primary btn-sm">+ New Promotion</a>
+</div>
+
+<% if (promotions.length === 0) { %>
+  <p class="empty-state">No promotions have been sent yet.</p>
+<% } else { %>
+  <div class="messages-list">
+    <% promotions.forEach(function(p) { %>
+      <article class="message-card">
+
+        <div class="msg-card-header">
+          <div class="msg-card-header-left">
+            <% if (p.discount_code) { %>
+              <span class="promo-code-badge"><%= p.discount_code %></span>
+            <% } %>
+            <h3 class="msg-card-subject"><%= p.title %></h3>
+          </div>
+          <time class="msg-card-time" datetime="<%= p.created_at %>">
+            <%= new Date(p.created_at).toLocaleString() %>
+          </time>
+        </div>
+
+        <p class="msg-card-body"><%= p.message %></p>
+
+        <div style="display:flex; gap:1.5rem; flex-wrap:wrap; font-size:0.82rem; color:#64748b; margin-top:0.25rem;">
+          <span>Sent to <strong><%= p.recipient_count %></strong> user<%= p.recipient_count != 1 ? 's' : '' %></span>
+          <% if (p.expires_at) { %>
+            <span>Expires: <strong><%= new Date(p.expires_at).toLocaleDateString() %></strong></span>
+          <% } %>
+        </div>
+
+      </article>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include("../partials/footer") %>

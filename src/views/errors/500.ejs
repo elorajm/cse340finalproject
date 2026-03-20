@@ -1,4 +1,18 @@
-<%- include("../partials/header") %>
-<h1><%= status %> - Error</h1>
-<p><%= message %></p>
+<%- include("../partials/header", { title: "Error" }) %>
+
+<div class="error-page">
+  <div class="error-code"><%= status %></div>
+  <h1 class="error-title">
+    <% if (status === 404) { %>Page Not Found
+    <% } else if (status === 403) { %>Access Denied
+    <% } else if (status === 400) { %>Bad Request
+    <% } else { %>Something Went Wrong<% } %>
+  </h1>
+  <p class="error-body"><%= message || "An unexpected error occurred. Please try again." %></p>
+  <div class="error-actions">
+    <a href="/" class="btn btn-primary">Go Home</a>
+    <a href="javascript:history.back()" class="btn">Go Back</a>
+  </div>
+</div>
+
 <%- include("../partials/footer") %>

@@ -1,4 +1,13 @@
-<%- include("../partials/header") %>
-<h1>404 - Not Found</h1>
-<p>The page you requested doesn't exist.</p>
+<%- include("../partials/header", { title: "Page Not Found" }) %>
+
+<div class="error-page">
+  <div class="error-code">404</div>
+  <h1 class="error-title">Page Not Found</h1>
+  <p class="error-body">The page you're looking for doesn't exist or may have been moved.</p>
+  <div class="error-actions">
+    <a href="/" class="btn btn-primary">Go Home</a>
+    <a href="/inventory" class="btn">Browse Inventory</a>
+  </div>
+</div>
+
 <%- include("../partials/footer") %>

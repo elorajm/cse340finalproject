@@ -24,3 +24,24 @@ export async function getAllContactMessages() {
 
   return result.rows;
 }
+
+export async function getContactMessageById(id) {
+  const result = await db.query(
+    `SELECT * FROM contact_messages WHERE message_id = $1`,
+    [id]
+  );
+  return result.rows[0] || null;
+}
+
+export async function updateContactMessageStatus(id, status, notes) {
+  const result = await db.query(
+    `
+      UPDATE contact_messages
+      SET status = $1, notes = $2
+      WHERE message_id = $3
+      RETURNING *
+    `,
+    [status, notes ?? null, id]
+  );
+  return result.rows[0] || null;
+}

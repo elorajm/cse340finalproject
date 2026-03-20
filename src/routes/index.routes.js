@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { getHome } from "../controllers/index.controller.js";
-import dbtestRoutes from "./dbtest.routes.js";
 import inventoryRoutes from "./inventory.routes.js";
 import authRoutes from "./auth.routes.js";
 import adminRoutes from "./admin.routes.js";
@@ -11,7 +10,13 @@ import serviceRoutes from "./service.routes.js";
 const router = Router();
 
 router.get("/", getHome);
-router.use(dbtestRoutes);
+
+// DB test routes — development only, never expose in production
+if (process.env.NODE_ENV !== "production") {
+  const { default: dbtestRoutes } = await import("./dbtest.routes.js");
+  router.use(dbtestRoutes);
+}
+
 router.use(inventoryRoutes);
 router.use("/auth", authRoutes);
 router.use("/admin", adminRoutes);

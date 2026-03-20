@@ -2,16 +2,60 @@
 
 <div class="dashboard-header">
   <div>
-    <h1 class="page-title" style="margin-bottom:0.25rem;">My Account</h1>
+    <h1 class="page-title" style="margin-bottom:0.25rem;">
+      <%= user.role === 'owner' ? 'User Dashboard' : 'My Account' %>
+    </h1>
     <p style="color:#6b7280; margin:0;">Welcome back, <%= user.first_name %>.</p>
   </div>
 </div>
 
+<!-- Owner only: Registered Users + Promotion Tools -->
+<% if (user.role === 'owner' && allUsers) { %>
+  <h2 class="dashboard-section-title">
+    Registered Users
+    <span class="promo-unread-badge" style="background:#f59e0b;"><%= allUsers.length %></span>
+  </h2>
+
+  <div class="owner-users-toolbar">
+    <a href="/admin/promotions/new" class="btn btn-primary">Send Promotion / Coupon</a>
+    <a href="/admin/users" class="btn btn-secondary">Manage Roles</a>
+  </div>
+
+  <div class="owner-users-table-wrap">
+    <table class="owner-users-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Joined</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% allUsers.forEach(function(u) { %>
+          <tr>
+            <td class="ou-name"><%= u.first_name %> <%= u.last_name %></td>
+            <td class="ou-email"><%= u.email %></td>
+            <td><span class="role-badge role-<%= u.role %>"><%= u.role %></span></td>
+            <td class="ou-date"><%= new Date(u.created_at).toLocaleDateString() %></td>
+            <td>
+              <a href="/admin/promotions/new" class="btn btn-xs btn-outline">
+                Send Offer
+              </a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
 <!-- Account info card -->
 <div class="user-info-card">
-  <div class="user-info-avatar"><%= user.first_name.charAt(0).toUpperCase() %><%= user.last_name.charAt(0).toUpperCase() %></div>
+  <div class="user-info-avatar"><%= user.first_name.charAt(0).toUpperCase() %><%= (user.last_name || '?').charAt(0).toUpperCase() %></div>
   <div class="user-info-body">
-    <div class="user-info-name"><%= user.first_name %> <%= user.last_name %></div>
+    <div class="user-info-name"><%= user.first_name %> <%= user.last_name || '' %></div>
     <div class="user-info-email"><%= user.email %></div>
     <div style="margin-top:0.4rem;">
       <span class="role-badge role-<%= user.role %>"><%= user.role %></span>
@@ -121,6 +165,59 @@
           <p class="user-review-comment"><%= rev.comment %></p>
         <% } %>
         <time class="user-request-date"><%= new Date(rev.created_at).toLocaleDateString() %></time>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<!-- Promotions inbox -->
+<h2 class="dashboard-section-title" style="margin-top:2rem;">
+  Promotions &amp; Offers
+  <% const unread = promotions.filter(p => !p.is_read); %>
+  <% if (unread.length > 0) { %>
+    <span class="promo-unread-badge"><%= unread.length %> new</span>
+  <% } %>
+</h2>
+
+<% if (promotions.length === 0) { %>
+  <div class="user-empty-state">
+    <p>You have no promotions or offers at this time.</p>
+  </div>
+<% } else { %>
+  <div class="promo-inbox">
+    <% promotions.forEach(function(p) { %>
+      <div class="promo-inbox-card <%= p.is_read ? 'promo-read' : 'promo-unread' %>">
+
+        <div class="promo-inbox-header">
+          <div class="promo-inbox-header-left">
+            <% if (!p.is_read) { %><span class="promo-new-dot" aria-label="New"></span><% } %>
+            <h3 class="promo-inbox-title"><%= p.title %></h3>
+          </div>
+          <time class="msg-card-time" datetime="<%= p.received_at %>">
+            <%= new Date(p.received_at).toLocaleDateString() %>
+          </time>
+        </div>
+
+        <p class="promo-inbox-message"><%= p.message %></p>
+
+        <% if (p.discount_code) { %>
+          <div class="promo-code-block">
+            Use code: <strong class="promo-code-text"><%= p.discount_code %></strong>
+          </div>
+        <% } %>
+
+        <% if (p.expires_at) { %>
+          <p class="promo-expires">
+            Offer expires: <strong><%= new Date(p.expires_at).toLocaleDateString() %></strong>
+          </p>
+        <% } %>
+
+        <% if (!p.is_read) { %>
+          <form action="/admin/promotions/<%= p.promotion_id %>/dismiss" method="POST" style="margin-top:0.75rem;">
+            <button type="submit" class="btn btn-sm btn-secondary">Dismiss</button>
+          </form>
+        <% } %>
+
       </div>
     <% }) %>
   </div>

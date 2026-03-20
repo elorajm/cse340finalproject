@@ -3,6 +3,7 @@ import { getAllVehicles, getAllCategories } from "../models/inventory.model.js";
 import { getAllUsers } from "../models/auth.model.js";
 import { getAllRequests, getUserRequests } from "../models/service.model.js";
 import { getAllContactMessages } from "../models/contact.model.js";
+import { getUserPromotions } from "../models/promotion.model.js";
 
 export async function showAdminDashboard(req, res, next) {
   try {
@@ -55,15 +56,26 @@ export async function showEmployeeDashboard(req, res, next) {
 
 export async function showUserDashboard(req, res, next) {
   try {
-    const userId = req.session.user.user_id;
-    const [serviceRequests, reviews] = await Promise.all([
-      getUserRequests(userId),
-      getReviewsByUserId(userId)
-    ]);
+    const { role, user_id: userId } = req.session.user;
+
+    // Employees have their own dashboard; redirect them there
+    if (role === "employee") {
+      return res.redirect("/admin/employee");
+    }
+
+    const fetchAll = role === "owner"
+      ? Promise.all([getUserRequests(userId), getReviewsByUserId(userId), getUserPromotions(userId), getAllUsers()])
+      : Promise.all([getUserRequests(userId), getReviewsByUserId(userId), getUserPromotions(userId)]);
+
+    const result = await fetchAll;
+    const [serviceRequests, reviews, promotions, allUsers = null] = result;
+
     res.render("admin/user-dashboard", {
-      title: "My Dashboard",
+      title: "User Dashboard",
       serviceRequests,
-      reviews
+      reviews,
+      promotions,
+      allUsers
     });
   } catch (error) {
     next(error);

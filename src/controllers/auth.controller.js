@@ -41,9 +41,11 @@ export async function registerUser(req, res, next) {
       user_id: user.user_id,
       email: user.email,
       role: user.role,
-      first_name: user.first_name
+      first_name: user.first_name,
+      last_name: user.last_name
     };
 
+    req.flash("success", `Welcome to Jake's, ${first_name}! Your account has been created.`);
     res.redirect("/");
   } catch (error) {
     next(error);
@@ -96,9 +98,11 @@ export async function loginUser(req, res, next) {
       user_id: user.user_id,
       email: user.email,
       role: user.role,
-      first_name: user.first_name
+      first_name: user.first_name,
+      last_name: user.last_name
     };
 
+    req.flash("success", `Welcome back, ${user.first_name}!`);
     res.redirect("/");
   } catch (error) {
     next(error);
@@ -108,6 +112,6 @@ export async function loginUser(req, res, next) {
 export function logoutUser(req, res, next) {
   req.session.destroy((error) => {
     if (error) return next(error);
-    res.redirect("/");
+    res.redirect("/?bye=1");
   });
 }

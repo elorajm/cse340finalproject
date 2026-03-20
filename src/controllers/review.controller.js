@@ -9,6 +9,26 @@ import {
 } from "../models/review.model.js";
 import { getVehicleById } from "../models/inventory.model.js";
 
+function notFoundErr(msg) {
+  const err = new Error(msg || "Not found.");
+  err.status = 404;
+  return err;
+}
+
+function forbiddenErr(msg) {
+  const err = new Error(msg || "Access denied.");
+  err.status = 403;
+  return err;
+}
+
+function canModifyReview(review, user) {
+  return (
+    review.user_id === user.user_id ||
+    user.role === "owner" ||
+    user.role === "employee"
+  );
+}
+
 export async function addReview(req, res, next) {
   try {
     const vehicleId = req.params.vehicleId;
@@ -38,6 +58,7 @@ export async function addReview(req, res, next) {
     }
 
     await createReview(vehicleId, userId, req.body.rating, req.body.comment);
+    req.flash("success", "Your review has been posted. Thank you!");
     res.redirect(`/vehicle/${vehicleId}`);
   } catch (error) {
     next(error);
@@ -48,17 +69,8 @@ export async function showEditReview(req, res, next) {
   try {
     const review = await getReviewById(req.params.reviewId);
 
-    if (!review) {
-      return res.status(404).send("Review not found.");
-    }
-
-    if (
-      review.user_id !== req.session.user.user_id &&
-      req.session.user.role !== "owner" &&
-      req.session.user.role !== "employee"
-    ) {
-      return res.status(403).send("Access denied.");
-    }
+    if (!review) return next(notFoundErr("Review not found."));
+    if (!canModifyReview(review, req.session.user)) return next(forbiddenErr());
 
     const vehicle = await getVehicleById(review.vehicle_id);
 
@@ -75,21 +87,12 @@ export async function showEditReview(req, res, next) {
 
 export async function editReview(req, res, next) {
   try {
-    const errors = validationResult(req);
     const review = await getReviewById(req.params.reviewId);
 
-    if (!review) {
-      return res.status(404).send("Review not found.");
-    }
+    if (!review) return next(notFoundErr("Review not found."));
+    if (!canModifyReview(review, req.session.user)) return next(forbiddenErr());
 
-    if (
-      review.user_id !== req.session.user.user_id &&
-      req.session.user.role !== "owner" &&
-      req.session.user.role !== "employee"
-    ) {
-      return res.status(403).send("Access denied.");
-    }
-
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const vehicle = await getVehicleById(review.vehicle_id);
 
@@ -103,6 +106,7 @@ export async function editReview(req, res, next) {
 
     await updateReview(req.params.reviewId, req.body.rating, req.body.comment);
 
+    req.flash("success", "Your review has been updated.");
     res.redirect(`/vehicle/${review.vehicle_id}`);
   } catch (error) {
     next(error);
@@ -113,22 +117,14 @@ export async function removeReview(req, res, next) {
   try {
     const review = await getReviewById(req.params.reviewId);
 
-    if (!review) {
-      return res.status(404).send("Review not found.");
-    }
-
-    if (
-      review.user_id !== req.session.user.user_id &&
-      req.session.user.role !== "owner" &&
-      req.session.user.role !== "employee"
-    ) {
-      return res.status(403).send("Access denied.");
-    }
+    if (!review) return next(notFoundErr("Review not found."));
+    if (!canModifyReview(review, req.session.user)) return next(forbiddenErr());
 
     const vehicleId = review.vehicle_id;
 
     await deleteReview(req.params.reviewId);
 
+    req.flash("info", "Review deleted.");
     res.redirect(`/vehicle/${vehicleId}`);
   } catch (error) {
     next(error);

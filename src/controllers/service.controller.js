@@ -1,5 +1,6 @@
 import {
   createServiceRequest,
+  getServiceRequestById,
   getUserRequests,
   getAllRequests,
   updateRequestStatus
@@ -40,6 +41,7 @@ export async function submitServiceRequest(req, res, next) {
       description ? description.trim() : null
     );
 
+    req.flash("success", "Service request submitted. We'll be in touch soon!");
     res.redirect("/service/my-requests");
   } catch (error) {
     next(error);
@@ -72,14 +74,30 @@ export async function showAllRequests(req, res, next) {
   }
 }
 
+const VALID_STATUSES = ["Submitted", "In Progress", "Completed", "Cancelled"];
+
 export async function updateStatus(req, res, next) {
   try {
+    const request = await getServiceRequestById(req.params.id);
+    if (!request) {
+      const err = new Error("Service request not found.");
+      err.status = 404;
+      return next(err);
+    }
+
+    const status = req.body.status;
+    if (!VALID_STATUSES.includes(status)) {
+      req.flash("error", "Invalid status value.");
+      return res.redirect("/service/admin");
+    }
+
     await updateRequestStatus(
       req.params.id,
-      req.body.status,
+      status,
       req.body.notes
     );
 
+    req.flash("success", "Service request updated.");
     res.redirect("/service/admin");
   } catch (error) {
     next(error);

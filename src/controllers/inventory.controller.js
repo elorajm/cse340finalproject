@@ -27,7 +27,9 @@ export async function showVehicle(req, res, next) {
     const vehicle = await getVehicleById(vehicleId);
 
     if (!vehicle) {
-      return res.status(404).send("Vehicle not found");
+      const err = new Error("Vehicle not found.");
+      err.status = 404;
+      return next(err);
     }
 
     const reviews = await getReviewsByVehicleId(vehicleId);

@@ -43,6 +43,14 @@ export async function getAllRequests() {
   return result.rows;
 }
 
+export async function getServiceRequestById(requestId) {
+  const result = await db.query(
+    `SELECT * FROM service_requests WHERE request_id = $1`,
+    [requestId]
+  );
+  return result.rows[0] || null;
+}
+
 export async function updateRequestStatus(requestId, status, notes) {
   const result = await db.query(
     `

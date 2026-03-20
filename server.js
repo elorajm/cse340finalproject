@@ -8,6 +8,8 @@ import connectPgSimple from "connect-pg-simple";
 import db from "./src/models/db.js";
 
 import indexRoutes from "./src/routes/index.routes.js";
+import { flashMiddleware } from "./src/middleware/flash.js";
+import { notFound, errorHandler } from "./src/middleware/error-handler.js";
 
 dotenv.config();
 
@@ -44,28 +46,24 @@ app.use(
   })
 );
 
+app.use(flashMiddleware);
+
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   res.locals.currentPath = req.path;
+  res.locals.query = req.query;
   next();
 });
 
 // Routes
 app.use("/", indexRoutes);
 
-// 404
-app.use((req, res) => {
-  res.status(404).send("404 - Not Found");
-});
-
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).send("Server error");
-});
+// 404 and global error handler
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 

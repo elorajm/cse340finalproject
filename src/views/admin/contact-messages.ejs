@@ -1,27 +1,95 @@
 <%- include("../partials/header") %>
 
 <div class="admin-page-header">
-  <h1 class="page-title"><%= title %></h1>
-  <span style="color:#6b7280; font-size:0.9rem;"><%= messages.length %> message<%= messages.length !== 1 ? 's' : '' %></span>
+  <div>
+    <h1 class="page-title"><%= title %></h1>
+    <p class="page-subtitle">
+      <%= messages.filter(m => m.status === 'received').length %> unread &middot;
+      <%= messages.length %> total
+    </p>
+  </div>
 </div>
 
-<% if (messages.length === 0) { %>
-  <p style="color:#6b7280;">No contact messages yet.</p>
+<div class="filter-tabs">
+  <a href="/contact/messages"
+     class="filter-tab <%= statusFilter === 'all' ? 'filter-tab-active' : '' %>">
+    All <span class="filter-count"><%= messages.length %></span>
+  </a>
+  <a href="/contact/messages?status=received"
+     class="filter-tab filter-tab-received <%= statusFilter === 'received' ? 'filter-tab-active' : '' %>">
+    Received <span class="filter-count"><%= messages.filter(m => m.status === 'received').length %></span>
+  </a>
+  <a href="/contact/messages?status=replied"
+     class="filter-tab filter-tab-replied <%= statusFilter === 'replied' ? 'filter-tab-active' : '' %>">
+    Replied <span class="filter-count"><%= messages.filter(m => m.status === 'replied').length %></span>
+  </a>
+  <a href="/contact/messages?status=closed"
+     class="filter-tab filter-tab-closed <%= statusFilter === 'closed' ? 'filter-tab-active' : '' %>">
+    Closed <span class="filter-count"><%= messages.filter(m => m.status === 'closed').length %></span>
+  </a>
+</div>
+
+<%
+  const filtered = statusFilter === 'all'
+    ? messages
+    : messages.filter(m => m.status === statusFilter);
+%>
+
+<% if (filtered.length === 0) { %>
+  <p class="empty-state">No messages with this status.</p>
 <% } else { %>
   <div class="messages-list">
-    <% messages.forEach(m => { %>
+    <% filtered.forEach(function(m) { %>
       <article class="message-card">
+
         <div class="msg-card-header">
-          <h3 class="msg-card-subject"><%= m.subject %></h3>
-          <time class="msg-card-time"><%= new Date(m.created_at).toLocaleString() %></time>
+          <div class="msg-card-header-left">
+            <span class="status-badge status-<%= m.status %>"><%= m.status %></span>
+            <h3 class="msg-card-subject"><%= m.subject %></h3>
+          </div>
+          <time class="msg-card-time" datetime="<%= m.created_at %>">
+            <%= new Date(m.created_at).toLocaleString() %>
+          </time>
         </div>
+
         <p class="msg-card-from">
           From <strong><%= m.name %></strong>
-          &mdash; <a href="mailto:<%= m.email %>"><%= m.email %></a>
+          &mdash;
+          <a href="mailto:<%= m.email %>?subject=Re%3A%20<%= encodeURIComponent(m.subject) %>">
+            <%= m.email %>
+          </a>
         </p>
+
         <p class="msg-card-body"><%= m.message %></p>
+
+        <% if (m.notes) { %>
+          <div class="msg-notes-display">
+            <strong>Internal notes:</strong> <%= m.notes %>
+          </div>
+        <% } %>
+
+        <div class="msg-update-section">
+          <form action="/contact/messages/update/<%= m.message_id %>" method="POST" class="msg-status-form">
+            <div class="msg-form-row">
+              <label class="msg-form-label" for="status-<%= m.message_id %>">Update status</label>
+              <select id="status-<%= m.message_id %>" name="status" class="service-form-select msg-status-select">
+                <option value="received" <%= m.status === 'received' ? 'selected' : '' %>>Received</option>
+                <option value="replied"  <%= m.status === 'replied'  ? 'selected' : '' %>>Replied</option>
+                <option value="closed"   <%= m.status === 'closed'   ? 'selected' : '' %>>Closed</option>
+              </select>
+            </div>
+            <textarea
+              name="notes"
+              class="msg-notes-input"
+              placeholder="Internal notes (optional)..."
+              rows="2"
+            ><%= m.notes || '' %></textarea>
+            <button type="submit" class="btn btn-sm btn-primary">Save</button>
+          </form>
+        </div>
+
       </article>
-    <% }) %>
+    <% }); %>
   </div>
 <% } %>
 
