@@ -1,15 +1,126 @@
 <%- include("../partials/header") %>
 
-<h1 class="page-title"><%= title %></h1>
-<p>Welcome to the owner dashboard.</p>
+<div class="dashboard-header">
+  <div>
+    <h1 class="page-title" style="margin-bottom:0.25rem;">Owner Dashboard</h1>
+    <p style="color:#6b7280; margin:0;">Welcome back, <%= user.first_name %>. Here's an overview of the dealership.</p>
+  </div>
+</div>
 
-<ul>
-  <li><a href="/admin/vehicles">Manage vehicles</a></li>
-  <li>Manage categories</li>
-  <li>View all users</li>
-  <li><a href="/service/admin">Manage service requests</a></li>
-  <li><a href="/contact/messages">View contact messages</a></li>
-  <li><a href="/admin/reviews">Moderate reviews</a></li>
-</ul>
+<!-- Stats row -->
+<div class="stats-row">
+  <div class="stat-card">
+    <span class="stat-icon">&#128664;</span>
+    <div>
+      <div class="stat-number"><%= stats.vehicles %></div>
+      <div class="stat-label">Vehicles</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">&#128194;</span>
+    <div>
+      <div class="stat-number"><%= stats.categories %></div>
+      <div class="stat-label">Categories</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">&#128101;</span>
+    <div>
+      <div class="stat-number"><%= stats.users %></div>
+      <div class="stat-label">Users</div>
+    </div>
+  </div>
+  <div class="stat-card stat-card-alert">
+    <span class="stat-icon">&#128296;</span>
+    <div>
+      <div class="stat-number"><%= stats.pendingServices %></div>
+      <div class="stat-label">Pending Service</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">&#128172;</span>
+    <div>
+      <div class="stat-number"><%= stats.messages %></div>
+      <div class="stat-label">Messages</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-icon">&#11088;</span>
+    <div>
+      <div class="stat-number"><%= stats.reviews %></div>
+      <div class="stat-label">Reviews</div>
+    </div>
+  </div>
+</div>
+
+<!-- Management cards -->
+<h2 class="dashboard-section-title">Inventory</h2>
+<div class="dashboard-grid">
+
+  <a href="/admin/vehicles" class="dash-card">
+    <span class="dash-card-icon">&#128664;</span>
+    <div class="dash-card-body">
+      <h3>Vehicles</h3>
+      <p>Add, edit, or remove vehicles from the lot. <%= stats.vehicles %> listed.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+  <a href="/admin/categories" class="dash-card">
+    <span class="dash-card-icon">&#128194;</span>
+    <div class="dash-card-body">
+      <h3>Categories</h3>
+      <p>Organise vehicles into categories. <%= stats.categories %> active.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+</div>
+
+<h2 class="dashboard-section-title">Operations</h2>
+<div class="dashboard-grid">
+
+  <a href="/service/admin" class="dash-card">
+    <span class="dash-card-icon">&#128296;</span>
+    <div class="dash-card-body">
+      <h3>Service Requests</h3>
+      <p><%= stats.pendingServices %> pending &middot; <%= stats.totalServices %> total.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+  <a href="/contact/messages" class="dash-card">
+    <span class="dash-card-icon">&#128172;</span>
+    <div class="dash-card-body">
+      <h3>Contact Messages</h3>
+      <p><%= stats.messages %> message<%= stats.messages !== 1 ? 's' : '' %> received.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+  <a href="/admin/reviews" class="dash-card">
+    <span class="dash-card-icon">&#11088;</span>
+    <div class="dash-card-body">
+      <h3>Review Moderation</h3>
+      <p>Read and remove customer reviews. <%= stats.reviews %> total.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+</div>
+
+<h2 class="dashboard-section-title">People</h2>
+<div class="dashboard-grid">
+
+  <a href="/admin/users" class="dash-card">
+    <span class="dash-card-icon">&#128101;</span>
+    <div class="dash-card-body">
+      <h3>Users &amp; Roles</h3>
+      <p>View all accounts and assign employee or owner roles. <%= stats.users %> users.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
+</div>
 
 <%- include("../partials/footer") %>
