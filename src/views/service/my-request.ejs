@@ -1,36 +1,72 @@
 <%- include("../partials/header") %>
 
-<h1>My Service Requests</h1>
-
-<p><a href="/service/new">+ New Service Request</a></p>
+<div class="admin-page-header">
+  <h1 class="page-title"><%= title %></h1>
+  <a href="/service/new" class="btn btn-primary btn-sm">+ New Request</a>
+</div>
 
 <% if (requests.length === 0) { %>
-  <p>You have no service requests yet.</p>
+  <div class="user-empty-state">
+    <p>You haven't submitted any service requests yet.</p>
+    <a href="/service/new" class="btn btn-primary btn-sm">Request Service</a>
+  </div>
 <% } else { %>
-  <% requests.forEach(r => { %>
-    <div style="border:1px solid #ccc; padding:12px; margin-bottom:12px;">
-      <p><strong>#<%= r.request_id %> — <%= r.service_type %></strong></p>
-      <p>
-        <strong>Vehicle:</strong>
-        <% if (r.year && r.make && r.model) { %>
-          <%= r.year %> <%= r.make %> <%= r.model %>
-        <% } else { %>
-          Not specified
+
+  <!-- Status key -->
+  <div class="sr-status-key">
+    <span class="service-status-badge service-status-submitted">Submitted</span>
+    <span style="color:#6b7280; font-size:0.8rem;">— waiting for staff review</span>
+    <span class="service-status-badge service-status-in-progress" style="margin-left:1rem;">In Progress</span>
+    <span style="color:#6b7280; font-size:0.8rem;">— work underway</span>
+    <span class="service-status-badge service-status-completed" style="margin-left:1rem;">Completed</span>
+    <span style="color:#6b7280; font-size:0.8rem;">— finished</span>
+  </div>
+
+  <div class="service-list">
+    <% requests.forEach(r => { %>
+      <div class="service-card">
+
+        <div class="service-card-header">
+          <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+            <span class="service-card-id">#<%= r.request_id %></span>
+            <span class="service-card-type"><%= r.service_type %></span>
+          </div>
+          <span class="service-status-badge service-status-<%= r.status.toLowerCase().replace(/ /g, '-') %>">
+            <%= r.status %>
+          </span>
+        </div>
+
+        <div class="service-card-details">
+          <p>
+            <strong>Vehicle:</strong>
+            <% if (r.year && r.make && r.model) { %>
+              <%= r.year %> <%= r.make %> <%= r.model %>
+            <% } else { %>
+              <em style="color:#9ca3af;">Not from our inventory</em>
+            <% } %>
+          </p>
+          <% if (r.description) { %>
+            <p><strong>Your description:</strong> <%= r.description %></p>
+          <% } %>
+          <p style="color:#9ca3af; font-size:0.82rem; margin-top:0.4rem;">
+            Submitted <%= new Date(r.created_at).toLocaleDateString() %>
+            <% if (r.updated_at && new Date(r.updated_at).getTime() !== new Date(r.created_at).getTime()) { %>
+              &middot; Updated <%= new Date(r.updated_at).toLocaleDateString() %>
+            <% } %>
+          </p>
+        </div>
+
+        <% if (r.notes) { %>
+          <div class="sr-staff-note">
+            <span class="sr-staff-note-label">&#128172; Staff Note</span>
+            <p class="sr-staff-note-text"><%= r.notes %></p>
+          </div>
         <% } %>
-      </p>
-      <p><strong>Status:</strong> <%= r.status %></p>
-      <% if (r.description) { %>
-        <p><strong>Description:</strong> <%= r.description %></p>
-      <% } %>
-      <% if (r.notes) { %>
-        <p><strong>Notes from staff:</strong> <%= r.notes %></p>
-      <% } %>
-      <p><strong>Submitted:</strong> <%= new Date(r.created_at).toLocaleDateString() %></p>
-      <% if (r.updated_at && r.updated_at !== r.created_at) { %>
-        <p><strong>Last updated:</strong> <%= new Date(r.updated_at).toLocaleDateString() %></p>
-      <% } %>
-    </div>
-  <% }) %>
+
+      </div>
+    <% }) %>
+  </div>
+
 <% } %>
 
 <%- include("../partials/footer") %>

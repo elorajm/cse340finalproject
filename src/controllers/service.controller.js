@@ -20,12 +20,24 @@ export async function showServiceForm(req, res, next) {
 
 export async function submitServiceRequest(req, res, next) {
   try {
-    const vehicleId = req.body.vehicle_id || null;
+    const { vehicle_id, service_type, description } = req.body;
+
+    if (!service_type || service_type.trim() === "") {
+      const vehicles = await getAllVehicles();
+      return res.status(400).render("service/new", {
+        title: "Request Service",
+        vehicles,
+        errors: [{ msg: "Please select a service type." }],
+        old: req.body
+      });
+    }
+
+    const vehicleId = vehicle_id || null;
     await createServiceRequest(
       req.session.user.user_id,
       vehicleId,
-      req.body.service_type,
-      req.body.description
+      service_type.trim(),
+      description ? description.trim() : null
     );
 
     res.redirect("/service/my-requests");
