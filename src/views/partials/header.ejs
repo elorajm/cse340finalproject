@@ -1,25 +1,43 @@
-<nav>
-  <a href="/">Home</a>
-  <a href="/inventory">Inventory</a>
-  <a href="/contact">Contact</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== "undefined" ? title + " | Jake's Car Dealership" : "Jake's Car Dealership" %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
 
-  <% if (user) { %>
-    <a href="/admin/dashboard">Dashboard</a>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="site-brand">Jake's Car Dealership</a>
 
-    <% if (user.role === "owner") { %>
-      <a href="/admin/owner">Owner Panel</a>
-    <% } %>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/inventory">Inventory</a>
+      <a href="/contact">Contact</a>
 
-    <% if (user.role === "employee" || user.role === "owner") { %>
-      <a href="/admin/employee">Employee Panel</a>
-    <% } %>
+      <% if (user) { %>
+        <a href="/admin/dashboard">Dashboard</a>
 
-    <span>Welcome, <%= user.first_name %></span>
-    <form action="/auth/logout" method="POST" style="display:inline;">
-      <button type="submit">Logout</button>
-    </form>
-  <% } else { %>
-    <a href="/auth/login">Login</a>
-    <a href="/auth/register">Register</a>
-  <% } %>
-</nav>
+        <% if (user.role === "owner") { %>
+          <a href="/admin/owner">Owner Panel</a>
+        <% } %>
+
+        <% if (user.role === "employee" || user.role === "owner") { %>
+          <a href="/admin/employee">Employee Panel</a>
+        <% } %>
+
+        <span class="nav-welcome">Welcome, <%= user.first_name %></span>
+        <form action="/auth/logout" method="POST" style="display:inline;">
+          <button type="submit" class="nav-logout-btn">Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/auth/login">Login</a>
+        <a href="/auth/register">Register</a>
+      <% } %>
+    </nav>
+  </div>
+</header>
+
+<main>

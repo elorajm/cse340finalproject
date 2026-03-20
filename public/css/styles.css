@@ -9,32 +9,83 @@ body {
   color: #222;
 }
 
-header {
+/* ============================================================
+   SITE HEADER
+   ============================================================ */
+.site-header {
   background-color: #111827;
   color: white;
-  padding: 1rem 2rem;
+  padding: 0 2rem;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
+.site-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 0;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.site-brand {
+  color: white;
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.site-brand:hover {
+  color: #e2b84b;
 }
 
 nav {
-  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
 }
 
 nav a {
   color: white;
   text-decoration: none;
-  margin-right: 1.25rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
   font-weight: bold;
+  font-size: 0.95rem;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
+.nav-welcome {
+  color: #d1d5db;
+  font-size: 0.9rem;
+  padding: 0 0.5rem;
+}
+
+.nav-logout-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: white;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.nav-logout-btn:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ============================================================
+   MAIN (default — inner pages)
+   ============================================================ */
 main {
   max-width: 1100px;
   margin: 2rem auto;
@@ -57,6 +108,273 @@ footer {
   color: #111827;
 }
 
+/* ============================================================
+   HOMEPAGE OVERRIDES
+   ============================================================ */
+body.home-page main {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.home-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: white;
+  padding: 2.5rem 2rem;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  margin-bottom: 2rem;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 480px;
+  background-image: url("/images/2020chevroletcorvette.jpg");
+  background-size: cover;
+  background-position: center 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10, 15, 30, 0.82) 0%, rgba(15, 76, 129, 0.7) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: white;
+  padding: 2rem 1.5rem;
+  max-width: 700px;
+}
+
+.hero-heading {
+  font-size: 2.8rem;
+  margin: 0 0 0.75rem;
+  line-height: 1.15;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.hero-sub {
+  font-size: 1.2rem;
+  margin: 0 0 2rem;
+  color: #d1d5db;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.btn-primary {
+  background-color: #0f4c81;
+  color: white;
+  border-color: #0f4c81;
+}
+
+.btn-primary:hover {
+  background-color: #0c3c65;
+  border-color: #0c3c65;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: white;
+  border-color: rgba(255,255,255,0.7);
+}
+
+.btn-outline:hover {
+  background-color: rgba(255,255,255,0.15);
+  border-color: white;
+}
+
+.btn-secondary {
+  background-color: #e2b84b;
+  color: #111827;
+  border-color: #e2b84b;
+}
+
+.btn-secondary:hover {
+  background-color: #c9a030;
+  border-color: #c9a030;
+}
+
+.btn-sm {
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  background-color: #0f4c81;
+  color: white;
+  border-color: #0f4c81;
+}
+
+.btn-sm:hover {
+  background-color: #0c3c65;
+}
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+.about-section {
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2.5rem;
+}
+
+.about-section h2 {
+  color: #111827;
+  margin-top: 0;
+  font-size: 1.8rem;
+}
+
+.about-section p {
+  color: #444;
+  line-height: 1.7;
+  max-width: 720px;
+}
+
+/* ============================================================
+   FEATURED VEHICLES
+   ============================================================ */
+.featured-section {
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2.5rem;
+}
+
+.featured-section h2 {
+  color: #111827;
+  margin-top: 0;
+  font-size: 1.8rem;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.vehicle-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.vehicle-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.vehicle-card-img-wrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.vehicle-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vehicle-card-body {
+  padding: 1rem;
+}
+
+.vehicle-card-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  color: #111827;
+}
+
+.vehicle-card-price {
+  margin: 0 0 0.85rem;
+  font-size: 1.1rem;
+}
+
+.featured-view-all {
+  margin-top: 1.5rem;
+  font-weight: bold;
+}
+
+.featured-view-all a {
+  color: #0f4c81;
+  text-decoration: none;
+}
+
+.featured-view-all a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   CTA STRIP
+   ============================================================ */
+.cta-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.cta-strip-item {
+  background: #f8f9fb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.cta-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.cta-strip-item h3 {
+  margin: 0 0 0.5rem;
+  color: #111827;
+}
+
+.cta-strip-item p {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   VEHICLE LIST (inventory page)
+   ============================================================ */
 .vehicle-list {
   list-style: none;
   padding: 0;
@@ -86,6 +404,7 @@ footer {
   color: #0a7d32;
   font-weight: bold;
 }
+
 .inventory-controls {
   display: flex;
   flex-wrap: wrap;
@@ -125,6 +444,10 @@ footer {
 .inventory-button:hover {
   background-color: #0c3c65;
 }
+
+/* ============================================================
+   CONTACT FORM
+   ============================================================ */
 .contact-form input,
 .contact-form textarea {
   width: 100%;
@@ -148,6 +471,9 @@ footer {
   margin-bottom: 1.5rem;
 }
 
+/* ============================================================
+   MESSAGES / REVIEWS
+   ============================================================ */
 .messages-list {
   display: grid;
   gap: 1rem;
@@ -158,4 +484,27 @@ footer {
   border-radius: 8px;
   padding: 1rem;
   background: #fafafa;
+}
+
+/* ============================================================
+   VEHICLE DETAIL
+   ============================================================ */
+.vehicle-detail {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.vehicle-detail-image-wrapper {
+  flex: 1 1 320px;
+  max-width: 480px;
+}
+
+.vehicle-detail-image {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.vehicle-detail-info {
+  flex: 1 1 280px;
 }

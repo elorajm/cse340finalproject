@@ -1,14 +1,80 @@
 <%- include("partials/header") %>
 
-<h1 class="page-title"><%= title %></h1>
-<p>Welcome to Jake’s Car Dealership, where quality vehicles and exceptional customer service come together. We are committed to helping you find the perfect car that fits your lifestyle, needs, and budget.
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-heading">Where Your Next Drive Begins</h1>
+    <p class="hero-sub">Quality vehicles. Honest prices. Exceptional service.</p>
+    <div class="hero-ctas">
+      <a href="/inventory" class="btn btn-primary">Browse Inventory</a>
+      <a href="/service/new" class="btn btn-outline">Request Service</a>
+    </div>
+  </div>
+</section>
 
-At Jake’s, we offer a wide selection of carefully inspected vehicles, from reliable daily drivers to classic favorites and powerful trucks. Every vehicle on our lot is chosen with quality and value in mind, so you can shop with confidence.
+<!-- Main content -->
+<div class="home-content">
 
-Our goal is simple: to make your car-buying experience easy, transparent, and enjoyable. Whether you're browsing online or visiting us in person, our team is here to guide you every step of the way, no pressure, just honest help.
+  <!-- About -->
+  <section class="about-section">
+    <h2>Welcome to Jake's Car Dealership</h2>
+    <p>
+      At Jake's, we offer a wide selection of carefully inspected vehicles — from reliable daily
+      drivers to classic favorites and powerful trucks. Every vehicle on our lot is chosen with
+      quality and value in mind, so you can shop with confidence.
+    </p>
+    <p>
+      Our goal is simple: to make your car-buying experience easy, transparent, and enjoyable.
+      No pressure, just honest help.
+    </p>
+    <a href="/contact" class="btn btn-secondary">Contact Us</a>
+  </section>
 
-Start exploring our inventory today and discover why so many customers trust Jake’s Car Dealership for their next vehicle.
+  <!-- Featured Vehicles -->
+  <% if (featured.length > 0) { %>
+  <section class="featured-section">
+    <h2>Featured Vehicles</h2>
+    <div class="featured-grid">
+      <% featured.forEach(v => { %>
+        <article class="vehicle-card">
+          <div class="vehicle-card-img-wrap">
+            <img src="<%= v.image_url %>" alt="<%= v.alt_text %>" class="vehicle-card-img">
+          </div>
+          <div class="vehicle-card-body">
+            <h3 class="vehicle-card-title"><%= v.year %> <%= v.make %> <%= v.model %></h3>
+            <p class="vehicle-price vehicle-card-price">$<%= Number(v.price).toLocaleString() %></p>
+            <a href="/vehicle/<%= v.vehicle_id %>" class="btn btn-sm">View Details</a>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+    <p class="featured-view-all"><a href="/inventory">View all vehicles &rarr;</a></p>
+  </section>
+  <% } %>
 
-Drive away happy. Drive with Jake’s.</p>
+  <!-- CTA strip -->
+  <section class="cta-strip">
+    <div class="cta-strip-item">
+      <span class="cta-icon">&#128664;</span>
+      <h3>Explore Inventory</h3>
+      <p>Browse our full selection of vehicles filtered by category, price, and more.</p>
+      <a href="/inventory" class="btn btn-primary">Browse Now</a>
+    </div>
+    <div class="cta-strip-item">
+      <span class="cta-icon">&#128296;</span>
+      <h3>Request Service</h3>
+      <p>Schedule maintenance or repairs with our experienced service team.</p>
+      <a href="/service/new" class="btn btn-primary">Book Service</a>
+    </div>
+    <div class="cta-strip-item">
+      <span class="cta-icon">&#128172;</span>
+      <h3>Get in Touch</h3>
+      <p>Have a question? Our team is ready to help you find your perfect vehicle.</p>
+      <a href="/contact" class="btn btn-primary">Contact Us</a>
+    </div>
+  </section>
+
+</div>
 
 <%- include("partials/footer") %>
