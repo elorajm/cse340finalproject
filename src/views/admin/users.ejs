@@ -1,0 +1,45 @@
+<%- include("../partials/header") %>
+
+<h1 class="page-title"><%= title %></h1>
+<p><%= users.length %> registered user<%= users.length !== 1 ? 's' : '' %></p>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Joined</th>
+      <th>Change Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.forEach(u => { %>
+      <tr>
+        <td><%= u.first_name %> <%= u.last_name %></td>
+        <td><%= u.email %></td>
+        <td>
+          <span class="role-badge role-<%= u.role %>"><%= u.role %></span>
+        </td>
+        <td><%= new Date(u.created_at).toLocaleDateString() %></td>
+        <td>
+          <% if (u.user_id === user.user_id) { %>
+            <span style="color:#888; font-size:0.85rem;">You</span>
+          <% } else { %>
+            <form action="/admin/users/role/<%= u.user_id %>" method="POST"
+                  style="display:flex; gap:0.4rem; align-items:center;">
+              <select name="role" style="padding:0.3rem; border-radius:4px; border:1px solid #ccc;">
+                <option value="user"     <%= u.role === 'user'     ? 'selected' : '' %>>user</option>
+                <option value="employee" <%= u.role === 'employee' ? 'selected' : '' %>>employee</option>
+                <option value="owner"    <%= u.role === 'owner'    ? 'selected' : '' %>>owner</option>
+              </select>
+              <button type="submit" class="btn btn-sm">Save</button>
+            </form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include("../partials/footer") %>

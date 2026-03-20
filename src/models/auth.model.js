@@ -9,6 +9,23 @@ export async function findUserByEmail(email) {
   return result.rows[0];
 }
 
+export async function getAllUsers() {
+  const result = await db.query(
+    `SELECT user_id, first_name, last_name, email, role, created_at
+     FROM users
+     ORDER BY created_at DESC`
+  );
+  return result.rows;
+}
+
+export async function updateUserRole(userId, role) {
+  const result = await db.query(
+    `UPDATE users SET role = $1 WHERE user_id = $2 RETURNING user_id, first_name, last_name, email, role`,
+    [role, userId]
+  );
+  return result.rows[0];
+}
+
 export async function createUser(firstName, lastName, email, passwordHash, role = "user") {
   const result = await db.query(
     `

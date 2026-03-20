@@ -1,0 +1,42 @@
+<%- include("../partials/header") %>
+
+<div class="admin-page-header">
+  <h1 class="page-title"><%= title %></h1>
+  <a href="/admin/categories/new" class="btn btn-primary btn-sm">+ Add Category</a>
+</div>
+
+<% if (categories.length === 0) { %>
+  <p>No categories yet.</p>
+<% } else { %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Vehicles</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% categories.forEach(c => { %>
+        <tr>
+          <td><%= c.name %></td>
+          <td><%= c.vehicle_count %></td>
+          <td class="admin-table-actions">
+            <a href="/admin/categories/edit/<%= c.category_id %>" class="btn btn-sm">Edit</a>
+            <% if (c.vehicle_count === 0) { %>
+              <form action="/admin/categories/delete/<%= c.category_id %>" method="POST"
+                    style="display:inline;"
+                    onsubmit="return confirm('Delete category &quot;<%= c.name %>&quot;?')">
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+              </form>
+            <% } else { %>
+              <span class="btn btn-sm btn-disabled" title="Cannot delete — has vehicles">Delete</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include("../partials/footer") %>
