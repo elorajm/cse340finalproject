@@ -46,7 +46,7 @@ export async function registerUser(req, res, next) {
     };
 
     req.flash("success", `Welcome to Jake's, ${first_name}! Your account has been created.`);
-    res.redirect("/");
+    req.session.save(() => res.redirect("/"));
   } catch (error) {
     next(error);
   }
@@ -103,7 +103,7 @@ export async function loginUser(req, res, next) {
     };
 
     req.flash("success", `Welcome back, ${user.first_name}!`);
-    res.redirect("/");
+    req.session.save(() => res.redirect("/"));
   } catch (error) {
     next(error);
   }
