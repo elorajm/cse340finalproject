@@ -1,5 +1,7 @@
 import { Router } from "express";
 import {
+  showReviewsPage,
+  addGeneralReview,
   addReview,
   showEditReview,
   editReview,
@@ -11,6 +13,8 @@ import { validateId } from "../middleware/validate-id.js";
 
 const router = Router();
 
+router.get("/", showReviewsPage);
+router.post("/", requireLogin, reviewRules, addGeneralReview);
 router.post("/:vehicleId", requireLogin, validateId("vehicleId"), reviewRules, addReview);
 router.get("/edit/:reviewId", requireLogin, validateId("reviewId"), showEditReview);
 router.post("/edit/:reviewId", requireLogin, validateId("reviewId"), reviewRules, editReview);

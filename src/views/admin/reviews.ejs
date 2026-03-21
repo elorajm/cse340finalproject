@@ -9,13 +9,17 @@
   <p style="color:#6b7280;">No reviews yet.</p>
 <% } else { %>
   <div class="messages-list">
-    <% reviews.forEach(review => { %>
+    <% reviews.forEach(function(review) { %>
       <article class="message-card review-mod-card">
         <div class="review-mod-header">
           <div>
             <strong><%= review.first_name %> <%= review.last_name %></strong>
-            <span style="color:#6b7280;"> reviewed </span>
-            <strong><%= review.year %> <%= review.make %> <%= review.model %></strong>
+            <% if (review.year) { %>
+              <span style="color:#6b7280;"> reviewed </span>
+              <strong><%= review.year %> <%= review.make %> <%= review.model %></strong>
+            <% } else { %>
+              <span style="color:#6b7280;"> — General Review</span>
+            <% } %>
           </div>
           <div class="review-mod-meta">
             <span class="review-stars">

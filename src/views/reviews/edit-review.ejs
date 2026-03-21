@@ -5,9 +5,13 @@
 </div>
 
 <p style="color:#6b7280; margin-bottom:1.5rem;">
-  Editing your review for
-  <strong><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></strong>
-  &mdash; <a href="/vehicle/<%= vehicle.vehicle_id %>" style="color:#0f4c81; text-decoration:none;">view vehicle</a>
+  <% if (vehicle) { %>
+    Editing your review for
+    <strong><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></strong>
+    &mdash; <a href="/vehicle/<%= vehicle.vehicle_id %>" style="color:#0f4c81; text-decoration:none;">view vehicle</a>
+  <% } else { %>
+    Editing your general review.
+  <% } %>
 </p>
 
 <% if (errors.length > 0) { %>
@@ -23,8 +27,17 @@
   <div class="service-form-group">
     <label class="service-form-label" for="rating">Your Rating</label>
     <select name="rating" id="rating" class="service-form-select review-rating-select">
-      <% const ratingLabels = ['','&#9733;&#9733;&#9733;&#9733;&#9733; &mdash; Excellent','&#9733;&#9733;&#9733;&#9733;&#9734; &mdash; Good','&#9733;&#9733;&#9733;&#9734;&#9734; &mdash; Okay','&#9733;&#9733;&#9734;&#9734;&#9734; &mdash; Poor','&#9733;&#9734;&#9734;&#9734;&#9734; &mdash; Terrible']; %>
-      <% [5,4,3,2,1].forEach(n => { %>
+      <%
+        const ratingLabels = [
+          '',
+          '&#9733;&#9734;&#9734;&#9734;&#9734; &mdash; Terrible',
+          '&#9733;&#9733;&#9734;&#9734;&#9734; &mdash; Poor',
+          '&#9733;&#9733;&#9733;&#9734;&#9734; &mdash; Okay',
+          '&#9733;&#9733;&#9733;&#9733;&#9734; &mdash; Good',
+          '&#9733;&#9733;&#9733;&#9733;&#9733; &mdash; Excellent'
+        ];
+      %>
+      <% [5,4,3,2,1].forEach(function(n) { %>
         <option value="<%= n %>" <%= review.rating == n ? 'selected' : '' %>><%- ratingLabels[n] %></option>
       <% }) %>
     </select>
@@ -41,7 +54,7 @@
 
   <div class="service-form-actions">
     <button type="submit" class="btn btn-primary">Save Changes</button>
-    <a href="/vehicle/<%= vehicle.vehicle_id %>" class="btn btn-outline-dark">Cancel</a>
+    <a href="<%= vehicle ? '/vehicle/' + vehicle.vehicle_id : '/reviews' %>" class="btn btn-outline-dark">Cancel</a>
   </div>
 
 </form>

@@ -1,5 +1,4 @@
 import { getAllVehicles, getVehicleById, getAllCategories } from "../models/inventory.model.js";
-import { getReviewsByVehicleId, getUserVehicleReview } from "../models/review.model.js";
 import { isVehicleWishlisted } from "../models/wishlist.model.js";
 
 export async function showInventory(req, res, next) {
@@ -33,12 +32,8 @@ export async function showVehicle(req, res, next) {
       return next(err);
     }
 
-    const reviews = await getReviewsByVehicleId(vehicleId);
-
-    let userReview = null;
     let isWishlisted = false;
     if (req.session.user) {
-      userReview = await getUserVehicleReview(req.session.user.user_id, vehicleId);
       try {
         isWishlisted = await isVehicleWishlisted(req.session.user.user_id, vehicleId);
       } catch (_) {
@@ -49,12 +44,7 @@ export async function showVehicle(req, res, next) {
     res.render("catalog/vehicle", {
       title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
       vehicle,
-      reviews,
-      userReview,
-      isWishlisted,
-      reviewError: req.query.reviewError || null,
-      reviewFormErrors: null,
-      reviewOld: null
+      isWishlisted
     });
   } catch (error) {
     next(error);

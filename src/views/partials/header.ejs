@@ -39,6 +39,7 @@
       <div class="nav-group nav-public">
         <a href="/"         class="nav-link <%= navActive('/') %>">Home</a>
         <a href="/inventory" class="nav-link <%= navActive([{startsWith:'/inventory'},{startsWith:'/vehicle'}]) %>">Inventory</a>
+        <a href="/reviews"   class="nav-link <%= navActive({startsWith:'/reviews'}) %>">Reviews</a>
         <a href="/contact"   class="nav-link <%= navActive('/contact') %>">Contact</a>
       </div>
 

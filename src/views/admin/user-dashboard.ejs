@@ -142,16 +142,20 @@
 <% if (reviews.length === 0) { %>
   <div class="user-empty-state">
     <p>You haven't written any reviews yet.</p>
-    <a href="/inventory" class="btn btn-primary btn-sm">Browse Inventory</a>
+    <a href="/reviews" class="btn btn-primary btn-sm">Leave a Review</a>
   </div>
 <% } else { %>
   <div class="user-review-list">
-    <% reviews.forEach(rev => { %>
+    <% reviews.forEach(function(rev) { %>
       <div class="user-review-row">
         <div class="user-review-vehicle">
-          <a href="/vehicle/<%= rev.vehicle_id %>" style="color:#111827; font-weight:600; text-decoration:none;">
-            <%= rev.year %> <%= rev.make %> <%= rev.model %>
-          </a>
+          <% if (rev.vehicle_id) { %>
+            <a href="/vehicle/<%= rev.vehicle_id %>" style="color:#111827; font-weight:600; text-decoration:none;">
+              <%= rev.year %> <%= rev.make %> <%= rev.model %>
+            </a>
+          <% } else { %>
+            <span style="color:#111827; font-weight:600;">General Review</span>
+          <% } %>
         </div>
         <div class="user-review-stars">
           <% for (let i = 1; i <= 5; i++) { %>
@@ -161,7 +165,10 @@
         <% if (rev.comment) { %>
           <p class="user-review-comment"><%= rev.comment %></p>
         <% } %>
-        <time class="user-request-date"><%= new Date(rev.created_at).toLocaleDateString() %></time>
+        <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+          <time class="user-request-date"><%= new Date(rev.created_at).toLocaleDateString() %></time>
+          <a href="/reviews/edit/<%= rev.review_id %>" class="btn btn-sm" style="font-size:0.78rem; padding:0.2rem 0.6rem;">Edit</a>
+        </div>
       </div>
     <% }) %>
   </div>
