@@ -1,14 +1,20 @@
 <%- include("partials/header") %>
 
 <!-- Hero -->
-<section class="hero">
+<section class="hero"<% if (heroVehicle) { %> style="background-image: url('<%= heroVehicle.image_url %>');"<% } %>>
   <div class="hero-overlay"></div>
   <div class="hero-content">
+    <% if (heroVehicle) { %>
+      <p class="hero-vehicle-label"><%= heroVehicle.year %> <%= heroVehicle.make %> <%= heroVehicle.model %></p>
+    <% } %>
     <h1 class="hero-heading">Where Your Next Drive Begins</h1>
     <p class="hero-sub">Quality vehicles. Honest prices. Exceptional service.</p>
     <div class="hero-ctas">
+      <% if (heroVehicle) { %>
+        <a href="/vehicle/<%= heroVehicle.vehicle_id %>" class="btn btn-secondary">View This Vehicle</a>
+      <% } %>
       <a href="/inventory" class="btn btn-primary">Browse Inventory</a>
-      <a href="/service/new" class="btn btn-outline">Request Service</a>
+      <a href="/service/new" class="btn btn-white-blue">Request Service</a>
     </div>
   </div>
 </section>

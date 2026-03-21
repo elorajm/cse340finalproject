@@ -258,6 +258,19 @@ body.home-page main {
   max-width: 720px;
 }
 
+.hero-vehicle-label {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #f0b429;
+  background: rgba(0,0,0,0.35);
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  margin-bottom: 0.85rem;
+}
+
 .hero-heading {
   font-size: 3.2rem;
   margin: 0 0 0.85rem;
@@ -325,6 +338,19 @@ body.home-page main {
 .btn-outline:hover {
   background-color: rgba(255,255,255,0.12);
   border-color: white;
+}
+
+.btn-white-blue {
+  background-color: white;
+  color: #0f4c81;
+  border-color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.btn-white-blue:hover {
+  background-color: #f0f4f8;
+  border-color: #f0f4f8;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .btn-secondary {
@@ -921,6 +947,12 @@ body.home-page main {
   gap: 0.8rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   transition: box-shadow 0.2s, transform 0.15s;
+  min-width: 0;
+}
+
+.stat-card > div {
+  min-width: 0;
+  overflow: hidden;
 }
 
 .stat-card:hover {
@@ -2117,6 +2149,21 @@ body.home-page main {
 
   .stats-row {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 0.85rem 0.6rem;
+  }
+
+  .stat-card > div {
+    overflow: visible;
+  }
+
+  .stat-number {
+    font-size: 1.4rem;
   }
 
   .hero-heading {
