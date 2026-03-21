@@ -15,6 +15,9 @@ dotenv.config();
 
 const app = express();
 
+// Trust Render's reverse proxy so secure cookies work over HTTPS
+app.set("trust proxy", 1);
+
 // Needed for __dirname in ESM:
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,7 +42,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 2
     }
