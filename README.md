@@ -7,7 +7,7 @@ The application demonstrates core backend development concepts including authent
 
 Live Links
 
-GitHub Repository: [\[Add GitHub Link Here\]](https://github.com/elorajm/cse340finalproject)
+GitHub Repository: (https://github.com/elorajm/cse340finalproject)
 
 Live Deployment (Render): [Add Render Link Here]
 
