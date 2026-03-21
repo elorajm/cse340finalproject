@@ -104,7 +104,46 @@
     <span class="dash-card-arrow">&#8250;</span>
   </a>
 
+  <a href="#wishlist" class="dash-card">
+    <span class="dash-card-icon">&#10084;</span>
+    <div class="dash-card-body">
+      <h3>My Wish List</h3>
+      <p><%= wishlist.length %> saved vehicle<%= wishlist.length !== 1 ? 's' : '' %>.</p>
+    </div>
+    <span class="dash-card-arrow">&#8250;</span>
+  </a>
+
 </div>
+
+<!-- Wish List -->
+<h2 class="dashboard-section-title" id="wishlist" style="margin-top:2rem;">
+  &#10084; My Wish List
+  <% if (wishlist.length > 0) { %>
+    <span class="promo-unread-badge" style="background:#e11d48;"><%= wishlist.length %></span>
+  <% } %>
+</h2>
+<% if (wishlist.length === 0) { %>
+  <div class="user-empty-state">
+    <p>You haven't saved any vehicles yet. Click the heart on any vehicle to add it here.</p>
+    <a href="/inventory" class="btn btn-primary btn-sm">Browse Inventory</a>
+  </div>
+<% } else { %>
+  <div class="wishlist-grid">
+    <% wishlist.forEach(function(v) { %>
+      <a href="/vehicle/<%= v.vehicle_id %>" class="wishlist-card">
+        <div class="wishlist-card-img-wrap">
+          <img src="<%= v.image_url %>" alt="<%= v.alt_text %>" class="wishlist-card-img">
+        </div>
+        <div class="wishlist-card-body">
+          <div class="wishlist-card-title"><%= v.year %> <%= v.make %> <%= v.model %></div>
+          <div class="wishlist-card-price">$<%= Number(v.price).toLocaleString() %></div>
+          <div class="wishlist-card-mileage"><%= Number(v.mileage).toLocaleString() %> mi</div>
+        </div>
+        <span class="wishlist-card-heart">&#10084;</span>
+      </a>
+    <% }) %>
+  </div>
+<% } %>
 
 <!-- Service requests summary -->
 <h2 class="dashboard-section-title">Recent Service Requests</h2>

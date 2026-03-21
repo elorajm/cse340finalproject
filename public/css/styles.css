@@ -3184,3 +3184,42 @@ textarea.form-input {
     font-size: 1.6rem;
   }
 }
+
+/* ===== WISHLIST BUTTON ===== */
+.wishlist-form {
+  margin: 1.25rem 0 0.5rem;
+}
+
+.wishlist-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.wishlist-btn:hover {
+  color: #e11d48;
+}
+
+.wishlist-btn-active {
+  color: #e11d48;
+}
+
+.wishlist-heart {
+  font-size: 1.2rem;
+  line-height: 1;
+  color: inherit;
+}
+
+.wishlist-login-prompt {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+}

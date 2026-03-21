@@ -6,6 +6,7 @@ import adminRoutes from "./admin.routes.js";
 import contactRoutes from "./contact.routes.js";
 import reviewRoutes from "./review.routes.js";
 import serviceRoutes from "./service.routes.js";
+import wishlistRoutes from "./wishlist.routes.js";
 
 const router = Router();
 
@@ -23,5 +24,6 @@ router.use("/admin", adminRoutes);
 router.use("/contact", contactRoutes);
 router.use("/reviews", reviewRoutes);
 router.use("/service", serviceRoutes);
+router.use("/wishlist", wishlistRoutes);
 
 export default router;

@@ -4,6 +4,7 @@ import { getAllUsers } from "../models/auth.model.js";
 import { getAllRequests, getUserRequests } from "../models/service.model.js";
 import { getAllContactMessages } from "../models/contact.model.js";
 import { getUserPromotions } from "../models/promotion.model.js";
+import { getWishlistByUser } from "../models/wishlist.model.js";
 
 export async function showAdminDashboard(req, res, next) {
   try {
@@ -65,17 +66,25 @@ export async function showUserDashboard(req, res, next) {
 
     const fetchAll = role === "owner"
       ? Promise.all([getUserRequests(userId), getReviewsByUserId(userId), getUserPromotions(userId), getAllUsers()])
-      : Promise.all([getUserRequests(userId), getReviewsByUserId(userId), getUserPromotions(userId)]);
+      : Promise.all([getUserRequests(userId), getReviewsByUserId(userId), getUserPromotions(userId), Promise.resolve(null)]);
 
     const result = await fetchAll;
-    const [serviceRequests, reviews, promotions, allUsers = null] = result;
+    const [serviceRequests, reviews, promotions, allUsers] = result;
+
+    let wishlist = [];
+    try {
+      wishlist = await getWishlistByUser(userId);
+    } catch (err) {
+      console.error("Wishlist fetch error:", err.message);
+    }
 
     res.render("admin/user-dashboard", {
       title: "User Dashboard",
       serviceRequests,
       reviews,
       promotions,
-      allUsers
+      allUsers,
+      wishlist
     });
   } catch (error) {
     next(error);

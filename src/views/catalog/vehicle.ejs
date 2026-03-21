@@ -19,6 +19,19 @@
       <p><strong>Description:</strong></p>
       <p><%= vehicle.description %></p>
     <% } %>
+
+    <!-- Wishlist heart button -->
+    <% if (user) { %>
+      <form action="/wishlist/toggle/<%= vehicle.vehicle_id %>" method="POST" class="wishlist-form">
+        <button type="submit" class="wishlist-btn <%= isWishlisted ? 'wishlist-btn-active' : '' %>">
+          <span class="wishlist-heart"><%- isWishlisted ? '&#10084;' : '&#9825;' %></span>
+          <%- isWishlisted ? 'Saved to Wish List' : 'Add to Wish List' %>
+        </button>
+      </form>
+    <% } else { %>
+      <p class="wishlist-login-prompt"><a href="/auth/login">Log in</a> to save this vehicle to your wish list.</p>
+    <% } %>
+
     <p style="margin-top:1.5rem;"><a href="/inventory" style="color:#0f4c81; text-decoration:none; font-size:0.9rem;">&#8592; Back to inventory</a></p>
   </div>
 </div>
