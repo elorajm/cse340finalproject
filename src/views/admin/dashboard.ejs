@@ -109,18 +109,39 @@
 
 </div>
 
-<h2 class="dashboard-section-title">People</h2>
-<div class="dashboard-grid">
-
-  <a href="/admin/users" class="dash-card">
-    <span class="dash-card-icon">&#128101;</span>
-    <div class="dash-card-body">
-      <h3>Users &amp; Roles</h3>
-      <p>View all accounts and assign employee or owner roles. <%= stats.users %> users.</p>
-    </div>
-    <span class="dash-card-arrow">&#8250;</span>
-  </a>
-
+<h2 class="dashboard-section-title">
+  People
+  <span class="promo-unread-badge" style="background:#f59e0b;"><%= allUsers.length %></span>
+</h2>
+<div class="owner-users-toolbar">
+  <a href="/admin/promotions/new" class="btn btn-primary">Send Promotion / Coupon</a>
+  <a href="/admin/users" class="btn btn-secondary">Manage Roles</a>
+</div>
+<div class="owner-users-table-wrap">
+  <table class="owner-users-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Joined</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% allUsers.forEach(function(u) { %>
+        <tr>
+          <td class="ou-name"><%= u.first_name %> <%= u.last_name %></td>
+          <td class="ou-email"><%= u.email %></td>
+          <td><span class="role-badge role-<%= u.role %>"><%= u.role %></span></td>
+          <td class="ou-date"><%= new Date(u.created_at).toLocaleDateString() %></td>
+          <td>
+            <a href="/admin/promotions/new" class="btn btn-xs btn-outline">Send Offer</a>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 </div>
 
 <h2 class="dashboard-section-title">Marketing</h2>
@@ -145,5 +166,34 @@
   </a>
 
 </div>
+
+<h2 class="dashboard-section-title">Customer Wishlists</h2>
+<% if (customerWishlists.length === 0) { %>
+  <p style="color:#6b7280; margin-bottom:2rem;">No customers have saved any vehicles yet.</p>
+<% } else { %>
+  <div class="owner-wishlist-section">
+    <% customerWishlists.forEach(function(customer) { %>
+      <div class="owner-wishlist-user">
+        <div class="owner-wishlist-user-header">
+          <span>&#9825;</span>
+          <strong><%= customer.first_name %> <%= customer.last_name %></strong>
+          <span style="color:#6b7280; font-size:0.85rem;"><%= customer.email %></span>
+          <span class="owner-wishlist-count"><%= customer.vehicles.length %> saved</span>
+        </div>
+        <div class="owner-wishlist-vehicles">
+          <% customer.vehicles.forEach(function(v) { %>
+            <a href="/vehicle/<%= v.vehicle_id %>" class="owner-wishlist-vehicle">
+              <img src="<%= v.image_url %>" alt="<%= v.alt_text %>" class="owner-wishlist-img" onerror="this.src='/images/no-image.jpg'">
+              <div class="owner-wishlist-vehicle-info">
+                <span class="owner-wishlist-vehicle-name"><%= v.year %> <%= v.make %> <%= v.model %></span>
+                <span class="owner-wishlist-vehicle-price">$<%= Number(v.price).toLocaleString() %></span>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
 
 <%- include("../partials/footer") %>

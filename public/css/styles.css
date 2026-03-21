@@ -3223,3 +3223,86 @@ textarea.form-input {
   font-size: 0.9rem;
   color: #6b7280;
 }
+
+/* ===== OWNER WISHLIST VIEW ===== */
+.owner-wishlist-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.owner-wishlist-user {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.owner-wishlist-user-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #f9fafb;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+}
+
+.owner-wishlist-count {
+  margin-left: auto;
+  background: #e11d48;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+}
+
+.owner-wishlist-vehicles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.owner-wishlist-vehicle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: #111827;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  transition: border-color 0.2s;
+  min-width: 200px;
+}
+
+.owner-wishlist-vehicle:hover {
+  border-color: #6366f1;
+}
+
+.owner-wishlist-img {
+  width: 60px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.owner-wishlist-vehicle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.owner-wishlist-vehicle-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.owner-wishlist-vehicle-price {
+  font-size: 0.8rem;
+  color: #6b7280;
+}

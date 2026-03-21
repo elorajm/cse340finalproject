@@ -22,6 +22,53 @@ export async function isVehicleWishlisted(userId, vehicleId) {
   return result.rows.length > 0;
 }
 
+export async function getAllWishlists() {
+  const result = await db.query(
+    `SELECT
+       u.user_id,
+       u.first_name,
+       u.last_name,
+       u.email,
+       v.vehicle_id,
+       v.year,
+       v.make,
+       v.model,
+       v.price,
+       v.image_filename,
+       w.created_at
+     FROM wishlists w
+     JOIN users u ON u.user_id = w.user_id
+     JOIN vehicles v ON v.vehicle_id = w.vehicle_id
+     ORDER BY u.last_name, u.first_name, w.created_at DESC`
+  );
+
+  // Group rows by user
+  const map = new Map();
+  for (const row of result.rows) {
+    if (!map.has(row.user_id)) {
+      map.set(row.user_id, {
+        user_id: row.user_id,
+        first_name: row.first_name,
+        last_name: row.last_name,
+        email: row.email,
+        vehicles: []
+      });
+    }
+    map.get(row.user_id).vehicles.push({
+      vehicle_id: row.vehicle_id,
+      year: row.year,
+      make: row.make,
+      model: row.model,
+      price: row.price,
+      image_url: row.image_filename
+        ? `/images/${row.image_filename}`
+        : `/images/${row.year}${row.make.toLowerCase().replace(/\s+/g, "")}${row.model.toLowerCase().replace(/\s+/g, "")}.jpg`,
+      alt_text: `${row.year} ${row.make} ${row.model}`
+    });
+  }
+  return [...map.values()];
+}
+
 export async function getWishlistByUser(userId) {
   const result = await db.query(
     `SELECT

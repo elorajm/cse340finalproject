@@ -4,7 +4,7 @@ import { getAllUsers } from "../models/auth.model.js";
 import { getAllRequests, getUserRequests } from "../models/service.model.js";
 import { getAllContactMessages } from "../models/contact.model.js";
 import { getUserPromotions } from "../models/promotion.model.js";
-import { getWishlistByUser } from "../models/wishlist.model.js";
+import { getWishlistByUser, getAllWishlists } from "../models/wishlist.model.js";
 
 export async function showAdminDashboard(req, res, next) {
   try {
@@ -17,6 +17,11 @@ export async function showAdminDashboard(req, res, next) {
       getAllReviews()
     ]);
 
+    let customerWishlists = [];
+    try {
+      customerWishlists = await getAllWishlists();
+    } catch (_) {}
+
     const stats = {
       vehicles: vehicles.length,
       categories: categories.length,
@@ -27,7 +32,7 @@ export async function showAdminDashboard(req, res, next) {
       reviews: reviews.length
     };
 
-    res.render("admin/dashboard", { title: "Owner Dashboard", stats });
+    res.render("admin/dashboard", { title: "Owner Dashboard", stats, customerWishlists, allUsers: users });
   } catch (error) {
     next(error);
   }
@@ -64,12 +69,11 @@ export async function showUserDashboard(req, res, next) {
       return res.redirect("/admin/employee");
     }
 
-    const fetchAll = role === "owner"
-      ? Promise.all([getUserRequests(userId), getReviewsByUserId(userId), getUserPromotions(userId), getAllUsers()])
-      : Promise.all([getUserRequests(userId), getReviewsByUserId(userId), getUserPromotions(userId), Promise.resolve(null)]);
-
-    const result = await fetchAll;
-    const [serviceRequests, reviews, promotions, allUsers] = result;
+    const [serviceRequests, reviews, promotions] = await Promise.all([
+      getUserRequests(userId),
+      getReviewsByUserId(userId),
+      getUserPromotions(userId)
+    ]);
 
     let wishlist = [];
     try {
@@ -79,11 +83,10 @@ export async function showUserDashboard(req, res, next) {
     }
 
     res.render("admin/user-dashboard", {
-      title: "User Dashboard",
+      title: "Personal Dashboard",
       serviceRequests,
       reviews,
       promotions,
-      allUsers,
       wishlist
     });
   } catch (error) {
