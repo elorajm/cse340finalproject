@@ -5,11 +5,11 @@ This project is a fully functional server-side rendered web application built us
 
 The application demonstrates core backend development concepts including authentication, authorization, database relationships, MVC architecture, and multi-stage workflows.
 
-Live Links
+Live Links\[Add Render Link Here\]
 
 GitHub Repository: (https://github.com/elorajm/cse340finalproject)
 
-Live Deployment (Render): [Add Render Link Here]
+Live Deployment (Render): (https://cse340finalproject.onrender.com/)
 
 YouTube Walkthrough: [Add YouTube Video Link Here]
 
@@ -198,13 +198,13 @@ Test Account Credentials
 
 Use the following accounts to test different roles. All accounts use the same password:
 
-Password: P@$$w0rd!
+Password: 1234Test
 
-Owner: [Add Owner Email]
+Owner: eloraathias@gmail.com     
 
-Employee: [Add Employee Email]
+Employee: elorajacobson@gmail.com     
 
-User: [Add User Email]
+User: eloramathias@gmail.com    
 
 Known Limitations
 
