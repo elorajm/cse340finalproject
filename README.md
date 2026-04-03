@@ -11,8 +11,7 @@ GitHub Repository: (https://github.com/elorajm/cse340finalproject)
 
 Live Deployment (Render): (https://cse340finalproject.onrender.com/)
 
-YouTube Walkthrough: [Add YouTube Video Link Here]
-
+YouTube Walkthrough: https://youtu.be/fnWrlbsn5rc
 Technology Stack
 
 Backend: Node.js, Express.js
