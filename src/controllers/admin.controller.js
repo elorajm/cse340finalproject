@@ -8,11 +8,16 @@ import { getWishlistByUser, getAllWishlists } from "../models/wishlist.model.js"
 
 export async function showAdminDashboard(req, res, next) {
   try {
-    const [vehicles, categories, users, serviceRequests, messages, reviews] = await Promise.all([
+    // Run in small batches to avoid exhausting low DB connection limits.
+    const [vehicles, categories] = await Promise.all([
       getAllVehicles(),
-      getAllCategories(),
+      getAllCategories()
+    ]);
+    const [users, serviceRequests] = await Promise.all([
       getAllUsers(),
-      getAllRequests(),
+      getAllRequests()
+    ]);
+    const [messages, reviews] = await Promise.all([
       getAllContactMessages(),
       getAllReviews()
     ]);
